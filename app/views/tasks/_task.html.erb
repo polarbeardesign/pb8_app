@@ -1,0 +1,52 @@
+<div id="<%= dom_id task %>">
+
+  <p>
+    <strong class="block font-medium"><%= task.customer.org_name %></strong>
+  </p>
+  
+  <h2 class="font-bold text-3xl mb-1">
+    <%= task.task_name %>
+  </h2>
+
+
+<table>
+<tr>
+<th>task_id</th>
+<th>status</th>
+<th>created_at</th>
+<th>priority</th>
+<th>due date</th>
+<th>associated files</th>
+</tr>
+<tr>
+<td><%=task.id %></td>
+<td><%=task.status %></td>
+<td><%=task.created_at %></td>
+<td><%=task.priority %></td>
+<td><%=task.due_date %></td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<% if !task.description.blank? %>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= markdown(task.description) %>
+  </p>
+<% end %>
+
+<% if !task.notes.blank? %>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Notes:</strong>
+    <%= markdown(task.notes) %>
+  </p>
+<% end %>
+
+<% if !task.invoice_id.blank? %>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Invoice:</strong>
+    <%= task.invoice_id %>
+  </p>
+<% end %>
+
+</div>

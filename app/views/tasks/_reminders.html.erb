@@ -1,0 +1,64 @@
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <% if !@today.blank? %>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="today-tab" data-bs-toggle="tab" data-bs-target="#today" type="button" role="tab" aria-controls="today" aria-selected="true">Today <% if !@today.blank? %>(<%= @today.size %>)<% end %></button>
+    </li>
+  <% end %>
+  <% if !@next.blank? %>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="next-tab" data-bs-toggle="tab" data-bs-target="#next" type="button" role="tab" aria-controls="next" aria-selected="false">Next <% if !@next.blank? %>(<%= @next.size %>)<% end %></button>
+    </li>
+  <%end %>
+  <% if !@someday.blank? %>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="someday-tab" data-bs-toggle="tab" data-bs-target="#someday" type="button" role="tab" aria-controls="someday" aria-selected="false">Someday <% if !@someday.blank? %>(<%= @someday.size %>)<% end %></button>
+    </li>
+  <% end %>
+  </ul>
+
+<div class="tab-content" id="myTabContent">
+
+  <% if !@today.empty? %>
+    <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
+      <ol class="reminders">
+      <div id="reminders" data-controller="drag" data-drag-url="/reminders/:id/move">
+        <% @today.each do |reminder| %>
+
+            <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder) %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task) %>]</li>
+
+        <% end %>
+      </div>
+      </ol>
+    </div>
+  <% end %>
+
+    
+    
+  <% if !@next.empty? %>
+    <div class="tab-pane fade" id="next" role="tabpanel" aria-labelledby="next-tab">
+      <ol class="reminders">
+      <% @next.each do |reminder| %>
+        <%= content_tag :div, reminder do %>
+          <li><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder) %></em> | <%=reminder.updated_at.strftime("%b %d") %> |  <strong><%=reminder.due.strftime("%b %d") %></strong> | [<%= link_to "start", task_path(reminder.task) %>]</li>
+        <% end %>
+      <% end %>
+      </ol>
+    </div>
+  <% end %>
+
+
+
+  <% if !@someday.empty? %>
+    <div class="tab-pane fade" id="someday" role="tabpanel" aria-labelledby="someday-tab">
+      <ol class="reminders">
+        <% @someday.each do |reminder| %>
+          <%= content_tag :div, reminder do %>
+            <li><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder) %></em> | <%=reminder.updated_at.strftime("%b %d") %> |  <strong><%=reminder.due.strftime("%b %d") %></strong> | [<%= link_to "start", task_path(reminder.task) %>]</li>
+          <% end %>
+        <% end %>
+      </ol>
+    </div>
+  <% end %>
+
+</div>

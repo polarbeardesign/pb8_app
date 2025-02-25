@@ -1,0 +1,21 @@
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <% content_for :title, "Work periods" %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Work periods</h1>
+    <%= link_to "New work period", new_work_period_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div id="work_periods" class="min-w-full">
+    <% @work_periods.each do |work_period| %>
+      <%= render work_period %>
+      <p>
+        <%= link_to "Show this work period", work_period, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      </p>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div id="<%= dom_id invoice %>">
+  <h2 class="font-bold text-3xl"">
+    <%= invoice.customer.org_name %>
+  </h2>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Invoice number:</strong>
+    <%= invoice.invoice_number %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Total amount:</strong>
+    <%= number_to_currency(invoice.total_amount) %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Tax amount:</strong>
+    <%= number_to_currency(invoice.tax_amount) %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Invoice date:</strong>
+    <%= invoice.invoice_date.strftime("%b %-d, %Y") %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Paid:</strong>
+    <%= invoice.paid %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Pdf address:</strong>
+    <%= invoice.pdf_address %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Button code:</strong>
+    <%= invoice.button_code %>
+  </p>
+
+</div>

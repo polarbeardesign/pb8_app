@@ -1,0 +1,39 @@
+<table class="table-fixed w-full">
+  <thead>
+  <tr>
+    <th class="w-32">Date:</th>
+    <th class="w-16">Hours:</th>
+    <th class="w-16">Billable:</th>
+    <th>Notes:</th>
+  </tr>
+ </thead>
+<% total_hours = 0 %>
+<% total_bill_hours = 0 %>
+
+<% @task.work_periods.time_desc.each do |work_period| %>
+  <tbody>
+  <tr>
+    <% hours = ((work_period.end_time - work_period.start_time) / 3600).round(2) %>
+    <% total_hours = total_hours + hours %>
+    <td style="white-space:nowrap;">
+      <%= link_to work_period.end_time.strftime("%a - %b %d, %y"), edit_work_period_path(work_period) %>
+      <div><%= work_period.start_time.strftime("%H:%M") %> ~ <%= work_period.end_time.strftime("%H:%M") %></div>
+    </td>
+    <td class="text-right"><%= hours %></td>
+    <td class="text-right"><% if work_period.billable == true %><%= hours %><% total_bill_hours = total_bill_hours + hours %><% end %></td>
+    <td><% if work_period.end_time != work_period.start_time %><%= markdown(work_period.time_note) %><% end %></td>
+  </tr>
+<% end %>
+  <tr>
+    <td><b>Total Time:</b></td>
+    <td><b>
+      <% if total_hours > 0 %>
+        <%= total_hours.round(2) %>
+      <% else %>
+        0
+      <% end %></b></td>
+    <td align="right"><b><%= total_bill_hours.round(2) %></b></td>
+    <td>&nbsp;</td>
+  </tr>
+  </tbody>
+</table>

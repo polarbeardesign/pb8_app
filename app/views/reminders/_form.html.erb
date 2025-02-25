@@ -1,0 +1,73 @@
+<% if @reminder.change_count.nil? %>
+  <% new_cc = 0 %>
+<% else %>
+  <% new_cc = @reminder.change_count.to_int + 1 %>
+<% end %>
+
+<%= form_with(model: reminder, class: "contents") do |form| %>
+  <% if reminder.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(reminder.errors.count, "error") %> prohibited this reminder from being saved:</h2>
+
+      <ul>
+        <% reminder.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :task_id %>
+    <%= form.text_field :task_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description %>
+    <%= form.textarea :description, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+<div class="flex flex-wrap justify-center">
+  <div class="px-6 pt-2 mt-5 mx-2">
+    <%= form.label :completed %>
+    <%= form.checkbox :completed, class: "block mt-2 h-5 w-5 mx-auto" %>
+  </div>
+
+  <div class="px-6 pt-2 mt-5 mx-2">
+    <%= form.label :time_critical %>
+    <%= form.checkbox :time_critical, class: "block mt-2 h-5 w-5 mx-auto" %>
+  </div>
+</div>
+
+
+<div class="flex flex-wrap justify-center mb-5">
+  <div class="px-6 pt-2 mt-5 mx-2">
+    <%= form.label :reminder_date %>
+    <%= form.date_field :reminder_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class=" px-6 pt-2 mt-5 mx-2">
+    <%= form.label :due %>
+    <%= form.date_field :due, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="px-6 pt-2 mt-5 mx-2">
+    <%= form.label :change_count %>
+    <%= form.number_field :change_count, :value => new_cc, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-24" %>
+  </div>
+
+  <div class=" px-6 pt-2 mt-5 mx-2">
+    <%= form.label :position %>
+    <%= form.number_field :position, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-24" %>
+  </div>
+</div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

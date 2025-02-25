@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  end_time: 2024-12-29 13:47:10
+  start_time: 2024-12-29 13:47:10
+  time_note: MyText
+  billable: false
+  task: one
+
+two:
+  end_time: 2024-12-29 13:47:10
+  start_time: 2024-12-29 13:47:10
+  time_note: MyText
+  billable: false
+  task: two

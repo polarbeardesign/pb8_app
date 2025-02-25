@@ -1,0 +1,52 @@
+<div id="<%= dom_id reminder %>">
+  <h2 class="font-bold text-3xl">
+    <%= reminder.title %>
+  </h2>
+
+  <p>
+    <%= markdown(reminder.description) %>
+  </p>
+
+<div class="flex flex-wrap justify-between">
+
+  <div class="border rounded px-6 pt-2 mt-5 mx-2">
+    <% if reminder.completed? %>
+     Completed
+     <% else %>
+     Active
+    <% end %>
+  </div>
+
+  <div class="border rounded px-6 pt-2 mt-5 mx-2">
+    <% if reminder.time_critical? %>
+    Time Critical
+    <% else %>
+    Not Time Critical
+    <% end %>
+  </div>
+
+  <div class="border rounded px-6 pt-2 mt-5 mx-2">
+    <%= reminder.task.customer.org_name %><br />
+    <%= link_to reminder.task.task_name, task_path(reminder.task) %>
+  </div>
+
+  <div class="border rounded px-6 pt-2 mt-5 mx-2">
+    Reminder: <% if reminder.reminder_date? %>
+    <%= reminder.reminder_date %>
+    <% else %>
+    N/A
+    <% end %>
+  </div>
+
+  <div class="border rounded px-6 pt-2 mt-5 mx-2">
+    Due: <%= reminder.due %>
+  </div>
+
+  <div class="border rounded px-6 pt-2 mt-5 mx-2">
+    Change Count: <%= reminder.change_count %><br />
+    Last: <%= reminder.updated_at.strftime("%Y-%m-%d") %>
+  </div>
+  
+</div>
+
+</div>

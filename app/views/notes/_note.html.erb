@@ -1,0 +1,9 @@
+<div id="<%= dom_id note %>">
+  <h2 class="font-bold text-3xl">
+    <%= note.title %>
+  </h2>
+
+  <p class="my-5">
+    <%= markdown(note.note) %>
+  </p>
+</div>

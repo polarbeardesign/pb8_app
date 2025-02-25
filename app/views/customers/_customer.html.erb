@@ -1,0 +1,36 @@
+<div id="<%= dom_id customer %>">
+  <h2 class="font-bold text-3xl"">
+    <%= customer.org_name %>
+  </h2>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Short name:</strong>
+    <%= customer.short_name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Logo:</strong>
+    <%= customer.logo %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Require name:</strong>
+    <%= customer.require_name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Quoted rate:</strong>
+    <%= number_to_currency(customer.quoted_rate) %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= customer.user_id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Reverse logo:</strong>
+    <%= customer.reverse_logo %>
+  </p>
+
+</div>
