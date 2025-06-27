@@ -6,7 +6,7 @@ class Task < ApplicationRecord
 #  has_and_belongs_to_many :invoices
 
   belongs_to :customer
-  belongs_to :invoice
+#  belongs_to :invoice
 
 # for active tasks
    scope :active, -> { where(:status => "Active") }

@@ -11,7 +11,7 @@
 ARG RUBY_VERSION=3.2.2
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
-# Rails app lives here
+# Rails app lives here => something like "pb8_app?
 WORKDIR /rails
 
 # Install base packages
@@ -22,7 +22,7 @@ RUN apt-get update -qq && \
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_PATH="/usr/local/bundle" 
     BUNDLE_WITHOUT="development"
 
 # Throw-away build stage t o reduce size of final image
