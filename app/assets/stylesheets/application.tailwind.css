@@ -3,23 +3,34 @@
 @tailwind utilities;
 
 
-
-@layer components {
+@layer base {
 
   body, input, textarea {
     @apply bg-white dark:bg-slate-800 text-zinc-700 dark:text-white;
+  }
+  
+  a {
+   @apply text-blue-500;
   }
   
   p {
     @apply py-2;
   }
   
-  h1 {
-    @apply font-bold text-4xl my-2
+  h1, h2, h3 {
+    @apply font-bold my-2;
+  }
+  
+  h1{
+   @apply text-4xl;
   }
   
   h2 {
-    @apply font-bold text-3xl my-2
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
   }
 
   ul {
@@ -39,16 +50,17 @@
   }
 
   table {
-    @apply border-collapse border-spacing-0 border border-slate-500
+    @apply border-collapse border-spacing-0 border border-slate-500;
   }
 
   td, th {
-    @apply py-1 px-2 border-collapse border-spacing-0 border border-slate-500 text-sm align-top text-wrap text-pretty
+    @apply py-1 px-2 border-collapse border-spacing-0 border border-slate-500 text-sm align-top text-wrap text-pretty;
   }
 
   pre {
     @apply my-3 font-mono text-xs bg-sky-100 py-1 px-1 text-wrap;
   }
+
 }
 
 

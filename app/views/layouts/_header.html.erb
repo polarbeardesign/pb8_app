@@ -1,82 +1,68 @@
 <header>
-  <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-    <div class="flex lg:flex-1">
-      <a href="#" class="-m-1.5 p-1.5">
-        <span class="sr-only">Polar Bear Design</span>
-        <%= link_to (image_tag "pb_logo.svg"), home_path, class: "max-w-32" %>
-      </a>
-    </div>
 
-    <div class="flex lg:hidden">
-      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-        <span class="sr-only">Open main menu</span>
-        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </button>
-    </div>
-    <div class="hidden lg:flex lg:gap-x-6">
+    <div class="flex flex-1 justify-end m-4 text-xs">
     <% if authenticated? %>
-      <div><%= button_to 'tasks', tasks_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'reminders', reminders_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'weekly', work_periods_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'customers', customers_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'codenotes', notes_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>  
-    <% else %>   
-      <div><%= button_to 'home', home_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'about', about_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'services', services_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'portfolio', portfolio_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div>
-      <div><%= button_to 'contact', contact_path, method: :get, class: "mx-2 rounded-sm outline outline-[#68a6d2] py-1 px-3 inline-block font-medium hover:bg-[#dbf7ff]" %></div
-    <% end %>
-    </div>
-    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-    <% if authenticated? %>
-      <%= button_to "Log out", session_path, method: :delete if authenticated? %>
+      <%= Current.user.email_address %> @ <%= Current.user.sessions.last.created_at.strftime("%b %d, %H:%M") %> |&nbsp;<%= button_to "Log out", session_path, method: :delete if authenticated? %>
       <% else %>
-      <%= link_to "Login", new_session_path %> <span aria-hidden="true">&rarr;</span>
+      <%= link_to "Login", new_session_path %>
       <% end %>
     </div>
-  </nav>
 
+<nav data-controller="menu" class="bg-white border-b p-4">
+  <div class="flex items-center justify-between">
+    <!-- Logo -->
+    <%= link_to (image_tag "pb_logo.svg"), home_path, class: "max-w-32" %>
 
+    <!-- Hamburger (only on mobile) -->
+    <button
+      data-action="menu#toggle"
+      class="md:hidden text-gray-700 focus:outline-none"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
 
-
-
-  <!-- Mobile menu, show/hide based on menu open state. -->
-  <div class="lg:hidden" role="dialog" aria-modal="true">
-    <!-- Background backdrop, show/hide based on slide-over state. -->
-    <div class="fixed inset-0 z-10"></div>
-    <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white dark:bg-slate-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-      <div class="flex items-center justify-between">
-        <a href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">Polar Bear Design</span>
-          <%= link_to (image_tag "pb_logo.svg"), home_path, class: "max-w-8 w-auto" %>
-        </a>
-        <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-          <span class="sr-only">Close menu</span>
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="mt-6 flow-root">
-        <div class="-my-6 divide-y divide-gray-500/10">
-          <div class="space-y-2 py-6">
-
-
-            <a href="/" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Home</a>
-            <a href="/about" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">About</a>
-            <a href="/services" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Services</a>
-            <a href="/portfolio" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Portfolio</a>
-            <a href="/contact" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Contact</a>
-            </div>
-          </div>
-          <div class="py-6">
-            <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-          </div>
-        </div>
-      </div>
+    <!-- Desktop Menu (flex & right-aligned from md up) -->
+    <div class="hidden md:flex md:ml-auto md:space-x-4">
+    <% if authenticated? %>
+      <%= link_to "Tasks", tasks_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Reminders", reminders_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Weekly", work_periods_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Customers", customers_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Code Notes", notes_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+    <% else %> 
+      <%= link_to "Home", home_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "About", about_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Services", services_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Portfolio", portfolio_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Clients", new_session_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Contact", contact_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+    <% end %>
     </div>
   </div>
+
+  <!-- Mobile Menu (stacked & toggled) -->
+  <div
+    data-menu-target="menu"
+    class="hidden flex-col space-y-2 mt-2 md:hidden">
+    <% if authenticated? %>
+      <%= link_to "Tasks", tasks_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Reminders", reminders_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Weekly", work_periods_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Customers", customers_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Code Notes", notes_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+    <% else %> 
+	  <%= link_to "Home", home_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+	  <%= link_to "About", about_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+	  <%= link_to "Services", services_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+	  <%= link_to "Portfolio", portfolio_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+	  <%= link_to "Contact", contact_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+    <% end %>
+    <button data-action="menu#close" class="text-red-600">✕ Close</button>
+  </div>
+</nav>
+
+
 </header>
