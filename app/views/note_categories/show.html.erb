@@ -7,7 +7,7 @@
     <%= render @note_category %>
 
     <%= link_to "Edit this note category", edit_note_category_path(@note_category), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to note categories", note_categories_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Back to note categories", note_categories_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium dark:bg-slate-500" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this note category", @note_category, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>

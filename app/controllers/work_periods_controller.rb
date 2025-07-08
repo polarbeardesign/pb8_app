@@ -42,7 +42,6 @@ class WorkPeriodsController < ApplicationController
       if @work_period.update(work_period_params)
 #        format.html { redirect_to @work_period, notice: "Work period was successfully updated." }
         format.html { redirect_to task_path, :notice => 'Work period was successfully updated [end].' }
-
         format.json { render :show, status: :ok, location: @work_period }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -61,39 +60,8 @@ class WorkPeriodsController < ApplicationController
     end
   end
 
-  def start
-    @work_period = WorkPeriod.new(params[:work_period])
 
-    respond_to do |format|
-      if @work_period.save
-#        format.html { redirect_to weekly_summary_path, :notice => 'Work period was successfully created [start].' }
-        format.html { redirect_to task_path[:work_period.task_id], :notice => 'Work period was successfully created [start].' }
 
-        format.json { render :json => @work_period, :status => :created, :location => @work_period }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @work_period.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  def end
-#    @work_period = WorkPeriod.find(params[:id])
-
-    respond_to do |format|
-#      if @work_period.update_attributes(params[:work_period])
-      if @work_period.update(work_period_params)
-         @work_period.update_attributes(:end_time => Time.now)
-#        format.html { redirect_to weekly_summary_path, :notice => 'Work period was successfully updated [end].' }
-        format.html { redirect_to task_path, :notice => 'Work period was successfully updated [end].' }
-
-        format.json { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @work_period.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
 
 
   private

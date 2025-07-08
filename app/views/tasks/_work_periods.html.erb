@@ -13,8 +13,10 @@
 <% @task.work_periods.time_desc.each do |work_period| %>
   <tbody>
   <tr>
+    <% if work_period.start_time != work_period.end_time %>
     <% hours = ((work_period.end_time - work_period.start_time) / 3600).round(2) %>
     <% total_hours = total_hours + hours %>
+    <% end %>
     <td style="white-space:nowrap;">
       <%= link_to work_period.end_time.strftime("%a - %b %d, %y"), edit_work_period_path(work_period) %>
       <div><%= work_period.start_time.strftime("%H:%M") %> ~ <%= work_period.end_time.strftime("%H:%M") %></div>

@@ -21,7 +21,7 @@
 <tr>
 <td><%=task.id %></td>
 <td><%=task.status %></td>
-<td><%=task.created_at %></td>
+<td><%=task.created_at.strftime("%Y-%m-%d") %></td>
 <td><%=task.priority %></td>
 <td><%=task.due_date %></td>
 <td>&nbsp;</td>

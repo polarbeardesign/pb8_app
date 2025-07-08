@@ -7,7 +7,7 @@
     <%= render @work_period %>
 
     <%= link_to "Edit this work period", edit_work_period_path(@work_period), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to work periods", work_periods_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Back to work periods", work_periods_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium dark:bg-slate-500" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this work period", @work_period, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>

@@ -7,7 +7,7 @@
     <%= render @note %>
 
     <%= link_to "Edit this note", edit_note_path(@note), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to notes", notes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Back to notes", notes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium dark:bg-slate-500" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this note", @note, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
