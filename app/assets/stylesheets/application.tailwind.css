@@ -9,9 +9,6 @@
     @apply bg-white dark:bg-slate-800 text-zinc-700 dark:text-white;
   }
   
-  a {
-   @apply text-[#003366];
-  }
   
   p {
     @apply py-2;

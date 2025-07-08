@@ -4,42 +4,39 @@
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
 
+		<div class="flex justify-end mb-5 w-full">
+			<div class="inline-block ml-2">
+				<%= link_to "Edit this task", edit_task_path(@task), class: "mt-2 rounded-lg py-2 px-4 bg-sky-200 inline-block font-medium" %>
+			</div>
+			<div class="inline-block ml-2">
+				<%= link_to "Back to tasks", tasks_path, class: "mt-2 rounded-lg py-2 px-4 bg-gray-200 inline-block font-medium" %>
+			</div>
+			<div class="inline-block ml-2">
+				<%= button_to "Destroy this task", @task, method: :delete, class: "cursor-pointer mt-2 rounded-lg py-2 px-4 bg-red-200 font-medium" %>
+			</div>
+		</div>
+
     <%= render @task %>
 
-<hr />
-<%= form_for(@work_period) do |form| %>
-<%= form.hidden_field :task_id, :value => @task.id %>
-<% if @flag == "active_task" %>
-  <%= form.label :time_note %>:<br />
-  <%= form.textarea :time_note, autofocus: true, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-  
-  <div style="text-align: center; margin: 1em 0 0 0;">  
-    <%= form.hidden_field :id, :value => @current.last.id %><%= @current.last.id %> |
-    <%= form.hidden_field :end_time, :value => Time.now %>
-    <%= form.label :billable %>: <%= form.check_box :billable %> |
-    <%= submit_tag "End", :name => "End",  class: "mt-2 rounded-lg py-3 px-5 bg-sky-100 inline-block font-medium" %>
-  </div>
-<% else %>
-  <div class="flex justify-center">
-    <%= form.hidden_field :start_time, :value => Time.now %>
-    <%= form.hidden_field :end_time, :value => Time.now %>
-    <%= submit_tag "Start", :name => "Start", class: "mt-2 rounded-lg py-3 px-5 bg-sky-100 inline-block font-medium" %>
-  </div>
-<% end %>
-<% end %>
-<hr />
+		<%= form_for(@work_period) do |form| %>
+			<%= form.hidden_field :task_id, :value => @task.id %>
+			<% if @flag == "active_task" %>
+				<%= form.label :time_note %> [<%= @current.last.id %>]:<br />
+				<%= form.textarea :time_note, autofocus: true, rows: 8, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+				<div class="flex justify-center my-5"> 
+					<%= submit_tag "End", :name => "End",  class: "cursor-pointer mt-2 rounded-lg py-3 px-5 bg-red-300 inline-block text-2xl font-medium border-2 border-red-800" %>
+					<%= form.hidden_field :end_time, :value => Time.now %>  <%= form.hidden_field :id, :value => @current.last.id %>
+				</div>
+			<% else %>
+				<div class="flex justify-center my-5">
+					<%= form.hidden_field :start_time, :value => Time.now %>
+					<%= form.hidden_field :end_time, :value => Time.now %>
+					<%= submit_tag "Start", :name => "Start", class: "cursor-pointer mt-2 rounded-lg py-3 px-5 bg-green-300 inline-block text-2xl font-medium border-2 border-green-800" %>
+				</div>
+			<% end %>
+		<% end %>
  
- 
- 
-    <div class="flex justify-center mb-5">
-    <%= link_to "Edit this task", edit_task_path(@task), class: "mt-2 rounded-lg py-3 px-5 bg-sky-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= link_to "Back to tasks", tasks_path, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    </div>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this task", @task, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-orange-100 font-medium" %>
-    </div>
-    </div>
+
     <%= render "work_periods" %>
 
   </div>
