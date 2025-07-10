@@ -5,7 +5,7 @@ class CreateCustomers < ActiveRecord::Migration[8.0]
       t.string :short_name
       t.string :logo
       t.boolean :require_name
-      t.decimal :quoted_rate, :precision => 8, :scale => 2
+      t.decimal :quoted_rate, precision: 8, scale: 2
       t.references :user, null: true
       t.string :reverse_logo
 
