@@ -5,15 +5,13 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.active.sorted
     @customers = Customer.weekly
-#    @tasks = Task.weekly
+    # @tasks = Task.weekly
     @work_periods = WorkPeriod.weekly
     @current_task = Task.current_task
     @today = Reminder.sorted.active.today.all
     @next = Reminder.sorted.active.next.all
     @someday = Reminder.sorted.active.someday.all
     @tasks_chart = Task.find_by_sql("SELECT tasks.task_name,customers.org_name,SUM(TIMESTAMPDIFF(SECOND,work_periods.start_time,work_periods.end_time))/3600 AS hour_tot FROM `tasks` INNER JOIN `work_periods` ON `work_periods`.`task_id` = `tasks`.`id` INNER JOIN `customers` ON `customers`.`id` = `tasks`.`customer_id` WHERE `tasks`.`customer_id` = 6 AND work_periods.end_time BETWEEN NOW() - INTERVAL 30 DAY AND NOW() GROUP BY tasks.task_name")
-
-
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -22,12 +20,11 @@ class TasksController < ApplicationController
 
     if !@current.blank?
       @work_period = WorkPeriod.find_by_id(@current.last.id)
-#      commute = @work_period.build_commute
+      # commute = @work_period.build_commute
       @flag = "active_task"
     else
       @work_period = WorkPeriod.new
     end
-
   end
 
   # GET /tasks/new

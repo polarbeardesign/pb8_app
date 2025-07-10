@@ -1,7 +1,7 @@
 class RolesController < ApplicationController
   before_action :set_role, only: %i[ show edit update destroy ]
   allow_unauthenticated_access only: %i[ index show ]
-  
+
   # GET /roles or /roles.json
   def index
     @roles = Role.all

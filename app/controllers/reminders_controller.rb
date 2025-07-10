@@ -7,7 +7,6 @@ class RemindersController < ApplicationController
     @today = Reminder.sorted.active.today.all
     @next = Reminder.sorted.active.next.all
     @someday = Reminder.sorted.active.someday.all
-
   end
 
   # GET /reminders/1 or /reminders/1.json
