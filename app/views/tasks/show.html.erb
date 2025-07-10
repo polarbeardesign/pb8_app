@@ -18,6 +18,10 @@
 
     <%= render @task %>
 
+    <%= render "task_notes" %>
+    
+		<%= render "task_reminders" %>
+
 		<%= form_with model: @work_period, data: { controller: "form-time" } do |form| %>
 				<%= form.hidden_field :task_id, :value => @task.id %>
 				<%= form.hidden_field :start_time, data: { form_time_target: "startTime" } %>

@@ -1,6 +1,6 @@
 class Task < ApplicationRecord
   has_many :work_periods, dependent: :destroy
-  #  has_many :task_notes, dependent: :destroy
+  has_many :task_notes, dependent: :destroy
   has_many :reminders, dependent: :destroy
   #  has_and_belongs_to_many :invoices
   belongs_to :customer

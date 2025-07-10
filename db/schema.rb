@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_30_135050) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_10_172255) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "org_name"
     t.string "short_name"
@@ -89,6 +89,15 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_30_135050) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "task_notes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "task_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_task_notes_on_task_id"
+  end
+
   create_table "tasks", id: :integer, charset: "latin1", force: :cascade do |t|
     t.string "task_name"
     t.text "description"
@@ -98,11 +107,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_30_135050) do
     t.date "date_completed"
     t.string "priority"
     t.integer "customer_id"
-    t.integer "invoice_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["customer_id"], name: "index_tasks_on_customer_id"
-    t.index ["invoice_id"], name: "index_tasks_on_invoice_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

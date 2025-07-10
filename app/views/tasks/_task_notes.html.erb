@@ -1,0 +1,15 @@
+		<% if !@task.task_notes.blank? %>
+			<h3>
+			  <strong class="font-medium mb-1">Documents:</strong>
+		      <%= link_to "[add New]", new_task_note_path(:task_id => @task.id), class: "text-xs" %>
+			</h3>
+			<span class="details description" id="<%= @task.id %>_documents">
+				<ul>
+					<% @task.task_notes.each do |task_note| %>
+						<li><%= link_to task_note.title, task_note_path(task_note) %></li>
+					<% end %>
+				</ul>
+			</span>
+		<% end %>
+
+

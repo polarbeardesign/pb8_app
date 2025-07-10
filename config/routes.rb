@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :task_notes
   resources :page_contents
       get "about" => "page_contents#about"
       get "services" => "page_contents#services"

@@ -1,0 +1,22 @@
+<% content_for :title, "Showing task note" %>
+
+<div class="mx-auto md:w-2/3 w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+	<div class="flex justify-end mb-5 w-full">
+		<div class="inline-block ml-2">
+			<%= link_to "Edit this task", edit_task_note_path(@task_note), class: "mt-2 rounded-lg py-2 px-4 bg-sky-200 inline-block font-medium dark:text-zinc-700" %>
+		</div>
+		<div class="inline-block ml-2">
+			<%= link_to "Back to parent task", task_path(@task_note.task_id), class: "mt-2 rounded-lg py-2 px-4 bg-gray-200 inline-block font-medium dark:text-zinc-700" %>
+		</div>
+		<div class="inline-block ml-2">
+			<%= button_to "Destroy this task", @task_note, method: :delete, class: "cursor-pointer mt-2 rounded-lg py-2 px-4 bg-red-200 font-medium dark:text-zinc-700" %>
+		</div>
+	</div>
+		
+  <%= render @task_note %>
+
+</div>

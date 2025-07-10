@@ -1,0 +1,14 @@
+		<% if !@task.reminders.blank? %>
+		<h3>
+		  <strong class="block font-medium mb-1">To Dos:</strong>
+		</h3>
+		<ul>
+			<div id="reminders">
+				<% @task.reminders.sorted.active.each do |reminder| %>
+					<%#= content_tag_for :div, reminder do %>
+						<li><%= link_to reminder.title, reminder_path(reminder) %> - <%= reminder.due.strftime("%b %d, %Y") %></li>
+					<%# end %>
+				<% end %>
+			</div>
+		</ul>
+		<% end %>
