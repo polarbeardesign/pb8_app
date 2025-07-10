@@ -1,7 +1,7 @@
 class PageContentsController < ApplicationController
   before_action :set_page_content, only: %i[ show edit update destroy ]
   allow_unauthenticated_access only: %i[ about services portfolio contact home ]
-  
+
   # GET /page_contents or /page_contents.json
   def index
     @page_contents = PageContent.all
@@ -59,32 +59,29 @@ class PageContentsController < ApplicationController
   end
 
   def about
-    @page_content = PageContent.find_by_title('about')
+    @page_content = PageContent.find_by_title("about")
     render template: "page_contents/show"
   end
 
   def services
-    @page_content = PageContent.find_by_title('services')
+    @page_content = PageContent.find_by_title("services")
     render template: "page_contents/show"
   end
 
   def portfolio
-    @page_content = PageContent.find_by_title('portfolio')
+    @page_content = PageContent.find_by_title("portfolio")
     render template: "page_contents/show"
   end
 
   def contact
-    @page_content = PageContent.find_by_title('contact')
+    @page_content = PageContent.find_by_title("contact")
     render template: "page_contents/show"
   end
 
   def home
-    @page_content = PageContent.find_by_title('home')
+    @page_content = PageContent.find_by_title("home")
     render template: "page_contents/show"
   end
-
-
-
 
 
   private

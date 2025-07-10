@@ -8,5 +8,4 @@ class ApplicationController < ActionController::Base
       redirect_to weekly_summary_path
     end
   end
-  
 end
