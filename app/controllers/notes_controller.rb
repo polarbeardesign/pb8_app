@@ -15,16 +15,24 @@ class NotesController < ApplicationController
   # GET /notes/new
   def new
     @note = Note.new
+		@categories = NoteCategory.alpha_ordered.all
   end
 
   # GET /notes/1/edit
   def edit
-		@categories = NoteCategory.all
+		@categories = NoteCategory.alpha_ordered.all
   end
 
   # POST /notes or /notes.json
   def create
     @note = Note.new(note_params)
+    checked_params = params[:category_list] || []
+    for check_box_id in checked_params
+    category = NoteCategory.find(check_box_id)
+      unless @note.note_categories.include?(category)
+        @note.note_categories << category
+      end
+    end
 
     respond_to do |format|
       if @note.save

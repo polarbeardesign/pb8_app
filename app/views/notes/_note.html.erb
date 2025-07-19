@@ -6,4 +6,10 @@
   <p class="my-5">
     <%= markdown(note.note) %>
   </p>
+  <p class="my-5">Categorized as:</p>
+  <ul class="my-5">
+  <% note.note_categories.each do |category| %>
+    <li><%= category.category_name %></li>
+  <% end %>
+  </ul>
 </div>
