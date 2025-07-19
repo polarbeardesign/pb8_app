@@ -4,6 +4,8 @@ class NotesController < ApplicationController
   # GET /notes or /notes.json
   def index
     @notes = Note.all
+	  @category_list = NoteCategory.alpha_ordered.all
+    @categories = NoteCategory.single(params[:cat_id]).all
   end
 
   # GET /notes/1 or /notes/1.json
@@ -17,6 +19,7 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
+		@categories = NoteCategory.all
   end
 
   # POST /notes or /notes.json
@@ -36,6 +39,24 @@ class NotesController < ApplicationController
 
   # PATCH/PUT /notes/1 or /notes/1.json
   def update
+    @note = Note.find(params[:id])
+    @categories = NoteCategory.all
+    checked_categories = []
+    checked_params = params[:category_list] || []
+    for check_box_id in checked_params
+    category = NoteCategory.find(check_box_id)
+      unless @note.note_categories.include?(category)
+        @note.note_categories << category
+      end
+      checked_categories << category
+    end
+    missing_categories = @categories - checked_categories
+    for category in missing_categories
+      if @note.note_categories.include?(category)
+        @note.note_categories.delete(category)
+      end
+    end
+    
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @note, notice: "Note was successfully updated." }

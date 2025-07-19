@@ -10,14 +10,33 @@
     <%= link_to "New note", new_note_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="notes" class="min-w-full">
-    <% @notes.each do |note| %>
-      <div class="border-2 border-gray-200 rounded py-2 px-3 mb-4" >
-      <%= render note %>
-      <p>
-        <%= link_to "Show this note", note, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium dark:bg-slate-500" %>
-      </p>
-      </div>
-    <% end %>
-  </div>
-</div>
+<% @category_list.uniq.each do |menu| %>
+  <% if menu.id == params[:cat_id].to_f %>
+    <span class="active-filter" ><%= link_to menu.category_name, notes_path(:cat_id => menu.id) %></span> |
+  <% else %>
+    <%= link_to menu.category_name, notes_path(:cat_id => menu.id) %> | 
+  <% end %>
+<% end %>
+
+<br />
+
+<% @categories.uniq.each do |category| %>
+<h2 class="category_header"><%= category.category_name %> - <%= category.notes.size %></h2>
+
+<div class="cell">
+  <form id="live-search" action="" class="styled formfilter"" method="post">
+    <fieldset>
+        <input type="text" class="text-input" id="filter" value="" placeholder='filter'  autofocus />
+        <span id="filter-count"></span>
+    </fieldset>
+</form>
+
+<% category.notes.each do |note| %>
+  <%= content_tag :div, note do %>
+<h2 class="border-t-2 pt-5 italic"><%= link_to note.title, note %></h2>
+<p><%= markdown truncate(note.note, :length => 120, :separator => ' ') %> <em><%= link_to "More", note %></em></p>
+
+
+  <% end %>
+<% end %>
+<% end %>
