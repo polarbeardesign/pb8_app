@@ -43,7 +43,8 @@
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
-/public/uploads
+/public/uploads/misc_images
+/public/uploads/pdf
 
 /public/packs
 /public/packs-test
