@@ -28,17 +28,17 @@
       <% end %>
   </div>
   <% end %>
-  
+
+<%= link_to task_path(task), data: { turbo: false } do %>  
   <div class="border divide-y border-t-white py-1 px-4">
-  <div class="text-sm text-wrap text-pretty">
-    <%= link_to task.task_name, task %>
+    <div class="text-sm text-wrap text-pretty">
+      <%= task.task_name %>
+    </div>
   </div>
-   </div>
+<% end %>
 
-    <% current_customer = task.customer.org_name %>
-    
+<% current_customer = task.customer.org_name %>
 
-  <% end %>
-
+<% end %>
 
 </div>

@@ -1,42 +1,40 @@
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <% content_for :title, "Notes" %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Notes</h1>
-    <%= link_to "New note", new_note_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+<div class="notes-container mx-auto md:w-2/3 w-full">
+<h1>Code Notes</h1>
+  <div class="filter-section">
+    <%= form_with url: notes_path, method: :get, local: false,
+                  data: { 
+                    controller: "filter",
+                    turbo_frame: "notes_list"
+                  } do |form| %>
+      <%= form.text_field :search, 
+                         placeholder: "Search notes...", 
+                         value: params[:search],
+                         class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 dark:bg-slate-800 dark:text-white w-1/3",
+                         data: { 
+                           filter_target: "input",
+                           action: "input->filter#search"
+                         } %>
+      <!-- Hidden field to ensure Turbo Stream format -->
+      <%= hidden_field_tag :format, :turbo_stream %>
+    <% end %>
   </div>
 
-<% @category_list.uniq.each do |menu| %>
-  <% if menu.id == params[:cat_id].to_f %>
-    <span class="active-filter" ><%= link_to menu.category_name, notes_path(:cat_id => menu.id) %></span> |
-  <% else %>
-    <%= link_to menu.category_name, notes_path(:cat_id => menu.id) %> | 
+<%= turbo_frame_tag "notes_list" do %>
+	<div class="results-header">
+
+
+			<span class="count-label text-sm italic text-gray-400">
+				<%= pluralize(@notes.count, 'note') %>
+				<% if params[:search].present? %>
+					found for "<%= params[:search] %>"
+				<% end %>
+			</span>
+
+	</div>
+
+
+    <div class="notes-grid">
+      <%= render partial: "note", collection: @notes %>
+    </div>
   <% end %>
-<% end %>
-
-<br />
-
-<% @categories.uniq.each do |category| %>
-<h2 class="category_header"><%= category.category_name %> - <%= category.notes.size %></h2>
-
-<div class="cell">
-  <form id="live-search" action="" class="styled formfilter"" method="post">
-    <fieldset>
-        <input type="text" class="text-input" id="filter" value="" placeholder='filter'  autofocus />
-        <span id="filter-count"></span>
-    </fieldset>
-</form>
-
-<% category.notes.each do |note| %>
-  <%= content_tag :div, note do %>
-<h2 class="border-t-2 pt-5 italic"><%= link_to note.title, note %></h2>
-<p><%= markdown truncate(note.note, :length => 120, :separator => ' ') %> <em><%= link_to "More", note %></em></p>
-
-
-  <% end %>
-<% end %>
-<% end %>
+</div>

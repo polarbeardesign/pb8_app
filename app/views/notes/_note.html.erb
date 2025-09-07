@@ -1,15 +1,9 @@
-<div id="<%= dom_id note %>">
-  <h2 class="font-bold text-3xl">
-    <%= note.title %>
-  </h2>
-
-  <p class="my-5">
-    <%= markdown(note.note) %>
-  </p>
-  <p class="my-5">Categorized as:</p>
-  <ul class="my-5">
-  <% note.note_categories.each do |category| %>
-    <li><%= category.category_name %></li>
-  <% end %>
-  </ul>
+<div class="note-card my-10 pb-5 border-b border-gray-200">
+<%= link_to note_path(note), data: { turbo: false } do %>
+  <h3><%= note.title %></h3>
+  <div class="note-meta">
+    <span class="text-sm italic text-gray-400"><%= note.created_at.strftime("%B %d, %Y") %></span>
+  </div>
+  <p><%= markdown(truncate(note.note, length: 250)) %></p>
+<% end %>
 </div>

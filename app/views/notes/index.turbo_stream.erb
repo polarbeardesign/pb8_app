@@ -1,0 +1,30 @@
+<%= turbo_stream.replace "notes_list" do %>
+  <%= turbo_frame_tag "notes_list" do %>
+    <div class="results-header">
+      <div class="results-count">
+        <span class="count-label text-sm italic text-gray-400">
+          <%= pluralize(@notes.count, 'note') %>
+          <% if params[:search].present? %>
+            found for "<%= params[:search] %>"
+          <% end %>
+        </span>
+      </div>
+    </div>
+    
+    <div class="notes-grid">
+      <%= render partial: "note", collection: @notes, locals: { show_border: true } %>
+    </div>
+    
+    <% if @notes.empty? %>
+      <div class="no-results">
+        <% if params[:search].present? %>
+          <h3>No notes found for "<%= params[:search] %>"</h3>
+          <p>Try adjusting your search terms or <%= link_to "browse all notes", notes_path %></p>
+        <% else %>
+          <h3>No notes available</h3>
+          <p>Check back later for new content!</p>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

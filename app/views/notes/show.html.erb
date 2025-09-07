@@ -4,7 +4,7 @@
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
 
-    <%= render @note %>
+    <%= render partial: 'full_note' %>
 
     <%= link_to "Edit this note", edit_note_path(@note), class: "mt-2 rounded-lg py-2 px-4 bg-sky-200 inline-block font-medium dark:text-zinc-700" %>
     <%= link_to "Back to notes", notes_path, class: "mt-2 rounded-lg py-2 px-4 bg-gray-200 inline-block font-medium dark:text-zinc-700" %>

@@ -6,6 +6,17 @@ class NotesController < ApplicationController
     @notes = Note.all
 	  @category_list = NoteCategory.alpha_ordered.all
     @categories = NoteCategory.single(params[:cat_id]).all
+
+    if params[:search].present?
+      @notes = @notes.where("title LIKE ? OR note LIKE ?", 
+          "%#{params[:search]}%", "%#{params[:search]}%")
+      end
+
+    # Handle Turbo Stream requests for real-time updates
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   # GET /notes/1 or /notes/1.json
