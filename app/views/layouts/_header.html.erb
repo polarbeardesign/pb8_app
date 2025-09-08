@@ -48,7 +48,7 @@
   <!-- Mobile Menu (stacked & toggled) -->
   <div
     data-menu-target="menu"
-    class="hidden flex-col space-y-2 mt-2 md:hidden">
+    class="hidden flex-col space-y-2 mt-2 md:hidden  text-right">
     <% if authenticated? %>
       <%= link_to "Tasks", tasks_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
       <%= link_to "Reminders", reminders_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
