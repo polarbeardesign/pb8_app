@@ -29,17 +29,29 @@
 </table>
 
 <% if !task.description.blank? %>
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= markdown(task.description) %>
-  </p>
+	<div data-controller="accordion" class="my-5">
+			<details data-accordion-target="item" data-action="toggle->accordion#toggle">
+				<summary class="block font-medium mb-1">
+					Description:
+				</summary>
+				<div class="accordion-content">
+					<%= markdown(task.description) %>
+				</div>
+			</details>
+	</div>
 <% end %>
 
 <% if !task.notes.blank? %>
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Notes:</strong>
-    <%= markdown(task.notes) %>
-  </p>
+	<div data-controller="accordion" class="my-5">
+			<details data-accordion-target="item" data-action="toggle->accordion#toggle">
+				<summary class="block font-medium mb-1">
+					Notes:
+				</summary>
+				<div class="accordion-content">
+					<%= markdown(task.notes) %>
+				</div>
+			</details>
+	</div>
 <% end %>
 
 </div>

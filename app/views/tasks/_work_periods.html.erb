@@ -9,10 +9,9 @@
  </thead>
 <% total_hours = 0 %>
 <% total_bill_hours = 0 %>
-
+<tbody>
 <% @task.work_periods.time_desc.each do |work_period| %>
-  <tbody>
-  <tr>
+  <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-[#f2f7fa] even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
     <% if work_period.start_time != work_period.end_time %>
     <% hours = ((work_period.end_time - work_period.start_time) / 3600).round(2) %>
     <% total_hours = total_hours + hours %>
@@ -37,5 +36,5 @@
     <td align="right"><b><%= total_bill_hours.round(2) %></b></td>
     <td>&nbsp;</td>
   </tr>
-  </tbody>
+</tbody>
 </table>
