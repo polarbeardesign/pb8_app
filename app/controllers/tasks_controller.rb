@@ -3,7 +3,14 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.active.sorted
+		params[:active_only] = 'true' if params[:active_only].nil?
+		if params[:active_only] == 'true'
+			@tasks = Task.active.sorted.all
+		else
+			@tasks = Task.sorted.all
+		end
+
+
     @customers = Customer.weekly
     # @tasks = Task.weekly
     @work_periods = WorkPeriod.weekly

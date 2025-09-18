@@ -46,16 +46,16 @@
     data-menu-target="menu"
     class="hidden flex-col space-y-2 mt-2 md:hidden  text-right">
     <% if authenticated? %>
-      <%= link_to "Tasks", tasks_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Reminders", reminders_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Weekly", work_periods_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Customers", customers_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Code Notes", notes_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Tasks", tasks_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Reminders", reminders_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Weekly", work_periods_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Customers", customers_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Code Notes", notes_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
     <% else %> 
-	    <%= link_to "Home", home_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Client Portal", new_session_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+	    <%= link_to "Home", home_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Client Portal", new_session_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
     <% end %>
-    <button data-action="menu#close" class="text-red-600">✕ Close</button>
+    <button data-action="menu#close" class="text-xl text-red-600">✕ Close</button>
   </div>
 </nav>
 
