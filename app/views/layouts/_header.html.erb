@@ -36,11 +36,7 @@
       <%= link_to "Code Notes", notes_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
     <% else %> 
       <%= link_to "Home", home_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "About", about_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Services", services_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Portfolio", portfolio_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Clients", new_session_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Contact", contact_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Client Portal", new_session_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
     <% end %>
     </div>
   </div>
@@ -56,11 +52,8 @@
       <%= link_to "Customers", customers_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
       <%= link_to "Code Notes", notes_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
     <% else %> 
-	  <%= link_to "Home", home_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-	  <%= link_to "About", about_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-	  <%= link_to "Services", services_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-	  <%= link_to "Portfolio", portfolio_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
-	  <%= link_to "Contact", contact_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+	    <%= link_to "Home", home_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <%= link_to "Client Portal", new_session_path, class: "block text-[#68a5d2] hover:text-[#3a7cab]" %>
     <% end %>
     <button data-action="menu#close" class="text-red-600">✕ Close</button>
   </div>

@@ -6,7 +6,7 @@
 @layer base {
 
   body, input, textarea {
-    @apply bg-white dark:bg-slate-800 text-zinc-700 dark:text-white;
+    @apply bg-white dark:bg-slate-800 text-zinc-500 dark:text-white;
   }
   
   
