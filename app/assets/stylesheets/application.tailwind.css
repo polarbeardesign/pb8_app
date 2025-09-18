@@ -47,17 +47,13 @@
   }
 
   table {
-    @apply border-collapse border-spacing-0 border border-slate-500;
+    @apply w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400;
   }
 
   td, th {
-    @apply py-1 px-2 border-collapse border-spacing-0 border border-slate-500 text-sm align-top text-wrap text-pretty;
+    @apply py-1 px-2 text-sm align-top text-wrap text-pretty;
   }
 
-  th {
-    @apply bg-[#1e6da6]  dark:bg-white text-white dark:text-zinc-700;
-  }
-  
   pre {
     @apply my-3 font-mono text-xs bg-sky-100 py-1 px-1 text-wrap dark:bg-slate-600;
   }
