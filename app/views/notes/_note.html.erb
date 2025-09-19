@@ -1,6 +1,6 @@
 <div class="note-card my-10 pb-5 border-b border-gray-200">
 <%= link_to note_path(note), data: { turbo: false } do %>
-  <h3>X<%= note.title %></h3>
+  <h3><%= note.title %></h3>
   <div class="note-meta">
     <span class="text-sm italic text-gray-400"><%= note.created_at.strftime("%B %d, %Y") %></span>
   </div>
