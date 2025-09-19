@@ -3,13 +3,13 @@ class NotesController < ApplicationController
 
   # GET /notes or /notes.json
   def index
-    @notes = Note.all
-	  @category_list = NoteCategory.alpha_ordered.all
-    @categories = NoteCategory.single(params[:cat_id]).all
+    @notes = Note.cat_combo.all
+	  #@category_list = NoteCategory.alpha_ordered.all
+    #@categories = NoteCategory.single(params[:cat_id]).all
 
     if params[:search].present?
-      @notes = @notes.where("title LIKE ? OR note LIKE ?", 
-          "%#{params[:search]}%", "%#{params[:search]}%")
+      @notes = @notes.where("notes.title LIKE ? OR note LIKE ? OR note_categories.category_name LIKE ?",
+          "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%")
       end
 
     # Handle Turbo Stream requests for real-time updates

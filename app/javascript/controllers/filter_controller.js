@@ -2,6 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["input"]
+  static values = { 
+    turboFrame: String,
+    debounceDelay: { type: Number, default: 300 }
+  }
   
   connect() {
     this.timeout = null
@@ -20,20 +24,21 @@ export default class extends Controller {
     this.timeout = setTimeout(() => {
       console.log("Submitting form")
       
-      // Create a new FormData object with the search parameter
-      const formData = new FormData(this.element)
       const searchValue = this.inputTarget.value
       
       // Build the URL with search parameters
-      const url = new URL(this.element.action)
+      const url = new URL(this.element.action || window.location.href)
       url.searchParams.set('search', searchValue)
+      
+      // Get the turbo frame name from data attribute or default
+      const turboFrame = this.turboFrameValue || 'list'
       
       // Make a Turbo Stream request
       fetch(url, {
         method: 'GET',
         headers: {
           'Accept': 'text/vnd.turbo-stream.html',
-          'Turbo-Frame': 'posts_list'
+          'Turbo-Frame': turboFrame
         }
       }).then(response => response.text())
         .then(html => {
@@ -44,7 +49,7 @@ export default class extends Controller {
           console.error('Search request failed:', error)
         })
         
-    }, 300) // 300ms delay
+    }, this.debounceDelayValue)
   }
   
   disconnect() {
