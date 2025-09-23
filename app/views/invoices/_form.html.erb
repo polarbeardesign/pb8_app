@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :customer_id %>
-    <%= form.text_field :customer_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 dark:bg-slate-800 dark:text-white w-full" %>
+    <%= form.collection_select(:customer_id, Customer.order(:short_name) , :id, :short_name, { prompt: true }, { class: ["block shadow-sm rounded-md appearance-none border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": invoice.errors[:customer_id].none?, "border-red-400 focus:outline-red-600": invoice.errors[:customer_id].any?}]} ) %>
   </div>
 
   <div class="my-5">

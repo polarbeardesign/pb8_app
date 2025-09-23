@@ -14,7 +14,7 @@
   <div id="nowContent" data-tabs-target="content" class="tab-content mt-4">
     <ol class="reminders">
       <% @today.each do |reminder| %>
-        <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder) %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task) %>]</li>
+        <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder), data: { turbo: false } %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task), data: { turbo: false } %>]</li>
       <% end %>
     </ol>
   </div>
@@ -22,7 +22,7 @@
   <div id="nextContent" data-tabs-target="content" class="tab-content hidden mt-4">
     <ol class="reminders">
       <% @next.each do |reminder| %>
-        <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder) %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task) %>]</li>
+        <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder), data: { turbo: false } %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task), data: { turbo: false } %>]</li>
       <% end %>
     </ol>
   </div>
@@ -30,7 +30,7 @@
   <div id="futureContent" data-tabs-target="content" class="tab-content hidden mt-4">
     <ol class="reminders">
       <% @someday.each do |reminder| %>
-        <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder) %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task) %>]</li>
+        <li id="<%= dom_id reminder %>" data-id="<%= reminder.id %>"><em><%= link_to reminder.task.customer.short_name + ": " + reminder.title, edit_reminder_path(reminder), data: { turbo: false } %></em> | <% if reminder.due < Date.today && reminder.time_critical == true %><span style="background:#FE9C9C;border:1px solid #B93535;color:#FFFFFF;padding: 0.1em 0.45em;"><% end %><strong><%=reminder.due.strftime("%b %d") %></strong><% if reminder.due < Date.today && reminder.time_critical == true %></span><% end %> | [<%= link_to "start", task_path(reminder.task), data: { turbo: false } %>]</li>
       <% end %>
     </ol>
   </div>
