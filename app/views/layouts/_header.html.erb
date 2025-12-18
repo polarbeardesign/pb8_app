@@ -1,63 +1,84 @@
-<header>
-
-    <div class="flex flex-1 justify-end m-4 text-xs">
-    <% if authenticated? %>
-      <%= Current.user.email_address %> @ <%= Current.user.sessions.last.created_at.strftime("%b %d, %H:%M") %> |&nbsp;<%= button_to "Log out", session_path, method: :delete if authenticated? %>
-      <% else %>
-      <%= link_to "Login", new_session_path %>
+<header class="border-b p-2">
+  <div class="flex items-stretch h-24 px-4">
+    <!-- LOGO (LEFT, FULL HEIGHT) -->
+    <div class="flex items-center h-full">
+      <%= link_to home_path do %>
+        <%= image_tag "pb_logo.svg", class: "h-32 max-h-28 object-contain" %>
       <% end %>
     </div>
 
-<nav data-controller="menu" class="border-b p-4">
-  <div class="flex items-center justify-between">
-    <!-- Logo -->
-		<%= link_to home_path do %>
-			<%= image_tag "pb_logo.svg", class: "w-32" %>
-		<% end %>
+    <!-- RIGHT COLUMN (LOGIN TOP, NAV BOTTOM) -->
+    <div class="flex flex-col justify-between items-end flex-1 py-3">
+      <!-- TOP: LOGIN / USER INFO -->
+      <div class="text-xs">
+        <% if authenticated? %>
+          <%= Current.user.email_address %>
+          @ <%= Current.user.sessions.last.created_at.strftime("%b %d, %H:%M") %>
+          |&nbsp;
+          <%= link_to "Log out",
+      session_path,
+      data: { turbo_method: :delete },
+      class: "text-xs text-[#68a5d2] hover:text-[#3a7cab]" %>
+        <% else %>
+          <%= link_to "Login",
+                new_session_path,
+                class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+        <% end %>
+      </div>
 
-    <!-- Hamburger (only on mobile) -->
-    <button
-      data-action="menu#toggle"
-      class="md:hidden text-gray-700 focus:outline-none"
-    >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-    </button>
+      <!-- BOTTOM: NAV + HAMBURGER -->
+      <nav data-controller="menu" class="flex items-center gap-4">
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-4 text-right">
+					<% if authenticated? %>
+						<%= link_to "Tasks", tasks_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+						<%= link_to "Reminders", reminders_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+						<%= link_to "Weekly", work_periods_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+						<%= link_to "Customers", customers_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+						<%= link_to "Code Notes", notes_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<% else %> 
+						<%= link_to "Home", home_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+						<%= link_to "Client Portal", new_session_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<% end %>
+        </div>
 
-    <!-- Desktop Menu (flex & right-aligned from md up) -->
-    <div class="hidden md:flex md:ml-auto md:space-x-4">
-    <% if authenticated? %>
-      <%= link_to "Tasks", tasks_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Reminders", reminders_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Weekly", work_periods_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Customers", customers_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Code Notes", notes_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-    <% else %> 
-      <%= link_to "Home", home_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Client Portal", new_session_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-    <% end %>
+        <!-- Hamburger (mobile only) -->
+        <div data-controller="mobile-menu" class="group md:hidden">
+          <button data-action="mobile-menu#toggle" class="p-2">
+            <svg class="w-6 h-6 stroke-current transition-all duration-300"
+                 fill="none" viewBox="0 0 24 24">
+              <path d="M2 7h20" stroke-linecap="round" stroke-width="2"
+                    class="transition-all duration-300 origin-center
+                           group-[.open]:translate-y-[4px]
+                           group-[.open]:rotate-45" />
+              <path d="M2 12h20" stroke-linecap="round" stroke-width="2"
+                    class="transition-all duration-300 origin-center
+                           group-[.open]:opacity-0" />
+              <path d="M2 17h20" stroke-linecap="round" stroke-width="2"
+                    class="transition-all duration-300 origin-center
+                           group-[.open]:-translate-y-[3px]
+                           group-[.open]:-rotate-45" />
+            </svg>
+          </button>
+        </div>
+      </nav>
     </div>
   </div>
 
-  <!-- Mobile Menu (stacked & toggled) -->
-  <div
-    data-menu-target="menu"
-    class="hidden flex-col space-y-2 mt-2 md:hidden  text-right">
-    <% if authenticated? %>
-      <%= link_to "Tasks", tasks_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Reminders", reminders_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Weekly", work_periods_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Customers", customers_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Code Notes", notes_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-    <% else %> 
-	    <%= link_to "Home", home_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-      <%= link_to "Client Portal", new_session_path, class: "block text-xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-    <% end %>
-    <button data-action="menu#close" class="text-xl text-red-600">✕ Close</button>
+  <!-- MOBILE MENU PANEL -->
+  <div data-mobile-menu-panel
+       class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-300
+              flex flex-col space-y-5 px-4 text-right">
+				<% if authenticated? %>
+					<%= link_to "Tasks", tasks_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<%= link_to "Reminders", reminders_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<%= link_to "Weekly", work_periods_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<%= link_to "Customers", customers_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<%= link_to "Code Notes", notes_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+				<% else %> 
+					<%= link_to "Home", home_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<%= link_to "Client Portal", new_session_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+				<% end %>
   </div>
-</nav>
-
-
 </header>
+
