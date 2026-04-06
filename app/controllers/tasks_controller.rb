@@ -14,7 +14,7 @@ class TasksController < ApplicationController
     @customers = Customer.weekly
     # @tasks = Task.weekly
     @work_periods = WorkPeriod.weekly
-    @current_task = Task.current_task
+    @current_task = Task.current_task.first
     @today = Reminder.sorted.active.today.all
     @next = Reminder.sorted.active.next.all
     @someday = Reminder.sorted.active.someday.all

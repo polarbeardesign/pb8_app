@@ -8,5 +8,5 @@ class WorkPeriod < ApplicationRecord
   # for use in current week's time summary
   # beginning_of_week defaults to Monday, so subtracting one day from result
   scope :weekly,  lambda { where ("work_periods.end_time > ?"), (DateTime.now.beginning_of_week - 1.day) }
-  scope :current_job, -> { where("start_time = end_time") }
+  scope :current_job, -> { where("start_time = end_time").limit(1) }
 end
