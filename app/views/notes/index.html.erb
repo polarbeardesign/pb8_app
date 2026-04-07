@@ -1,5 +1,11 @@
 <div class="notes-container mx-auto md:w-2/3 w-full">
-<h1>Code Notes</h1>
+
+  <div class="flex justify-between items-center mb-5">
+    <h1>Code Notes</h1>
+    <%= link_to "New Note", new_note_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+
   <div class="filter-section">
     <%= form_with url: notes_path, method: :get, local: false,
                   data: { 
