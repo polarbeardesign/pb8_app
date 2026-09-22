@@ -9,7 +9,6 @@ one:
   date_completed: 2024-12-29
   priority: MyString
   customer: one
-  invoice: one
 
 two:
   task_name: MyString
@@ -20,4 +19,3 @@ two:
   date_completed: 2024-12-29
   priority: MyString
   customer: two
-  invoice: two

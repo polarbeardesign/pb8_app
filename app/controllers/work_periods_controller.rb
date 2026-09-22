@@ -41,7 +41,7 @@ class WorkPeriodsController < ApplicationController
     respond_to do |format|
       if @work_period.update(work_period_params)
         # format.html { redirect_to @work_period, notice: "Work period was successfully updated." }
-        format.html { redirect_to task_path, notice: "Work period was successfully updated [end]." }
+        format.html { redirect_to task_path(@work_period.task_id), notice: "Work period was successfully updated." }
         format.json { render :show, status: :ok, location: @work_period }
       else
         format.html { render :edit, status: :unprocessable_entity }

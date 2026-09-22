@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :customer_id %>
-    <%= form.collection_select(:customer_id, Customer.order(:short_name) , :id, :short_name, { prompt: true }, { class: ["block shadow-sm rounded-md appearance-none border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": invoice.errors[:customer_id].none?, "border-red-400 focus:outline-red-600": invoice.errors[:customer_id].any?}]} ) %>
+    <%= form.collection_select(:customer_id, Customer.order(:short_name) , :id, :short_name, { prompt: true }, { class: ["block shadow-sm rounded-md appearance-none border outline-hidden px-3 py-2 mt-2 w-full dark:bg-slate-800 dark:text-white", {"border-gray-400 focus:outline-blue-600": invoice.errors[:customer_id].none?, "border-red-400 focus:outline-red-600": invoice.errors[:customer_id].any?}]} ) %>
   </div>
 
   <div class="my-5">
@@ -38,7 +38,7 @@
 
   <div class="my-5">
     <%= form.label :paid %>
-    <%= form.checkbox :paid, class: "block mt-2 h-5 w-5" %>
+    <%= form.checkbox :paid, class: "block mt-2 h-5 w-5 dark:bg-slate-800 dark:border-slate-600 dark:checked:bg-blue-600 dark:checked:border-slate-600" %>
   </div>
 
   <div class="my-5">
