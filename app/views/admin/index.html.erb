@@ -1,0 +1,13 @@
+<div class="mx-auto md:w-2/3 mb-16 w-full">
+  <% content_for :title, "Admin" %>
+
+  <h1 class="font-bold text-4xl mb-5">Admin</h1>
+
+  <div class="flex flex-wrap gap-4">
+    <%= link_to "Invoices", invoices_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+    <%= link_to "Task Notes", task_notes_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+    <%= link_to "Page Contents", page_contents_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+    <%= link_to "Note Categories", note_categories_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+    <%= link_to "Roles", roles_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+  </div>
+</div>

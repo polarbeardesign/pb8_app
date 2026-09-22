@@ -36,7 +36,8 @@
 						<%= link_to "Weekly", work_periods_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Customers", customers_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Code Notes", notes_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-					<% else %> 
+						<%= link_to "Admin", admin_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<% else %>
 						<%= link_to "Home", home_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Client Portal", new_session_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<% end %>
@@ -75,7 +76,8 @@
 					<%= link_to "Weekly", work_periods_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Customers", customers_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Code Notes", notes_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-				<% else %> 
+					<%= link_to "Admin", admin_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+				<% else %>
 					<%= link_to "Home", home_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Client Portal", new_session_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 				<% end %>
