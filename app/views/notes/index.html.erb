@@ -43,8 +43,6 @@
 	</div>
 
 
-    <div class="notes-grid">
-      <%= render partial: "note", collection: @notes %>
-    </div>
+    <%= render "notes_by_category", notes: @notes %>
   <% end %>
 </div>

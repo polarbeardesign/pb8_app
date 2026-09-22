@@ -1,4 +1,9 @@
 <%= form_with(model: role, class: "contents") do |form| %>
+  <div class="flex flex-wrap items-center justify-end gap-2 my-5">
+    <%= content_for(:form_actions) %>
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+
   <% if role.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(role.errors.count, "error") %> prohibited this role from being saved:</h2>
@@ -14,9 +19,5 @@
   <div class="my-5">
     <%= form.label :role_name %>
     <%= form.text_field :role_name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 dark:bg-slate-800 dark:text-white w-full" %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

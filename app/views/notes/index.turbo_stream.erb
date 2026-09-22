@@ -11,9 +11,7 @@
       </div>
     </div>
     
-    <div class="notes-grid">
-      <%= render partial: "note", collection: @notes, locals: { show_border: true } %>
-    </div>
+    <%= render "notes_by_category", notes: @notes %>
     
     <% if @notes.empty? %>
       <div class="no-results">

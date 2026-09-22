@@ -1,0 +1,28 @@
+<% by_category = Hash.new { |hash, key| hash[key] = [] } %>
+<% uncategorized = [] %>
+<% notes.includes(:note_categories).order(:title).each do |note| %>
+  <% if note.note_categories.any? %>
+    <% note.note_categories.each { |category| by_category[category] << note } %>
+  <% else %>
+    <% uncategorized << note %>
+  <% end %>
+<% end %>
+
+<% groups = by_category.sort_by { |category, _| category.category_name.to_s.downcase }.map { |category, cat_notes| [category.category_name, cat_notes] } %>
+<% groups << ["Uncategorized", uncategorized] if uncategorized.any? %>
+
+<div class="notes-by-category">
+  <% groups.each do |category_name, cat_notes| %>
+    <section class="mt-8">
+      <h2 class="text-lg font-bold pb-1 mb-3 border-b border-gray-200 dark:border-gray-700">
+        <%= category_name %>
+        <span class="text-sm font-normal italic text-gray-400">(<%= cat_notes.size %>)</span>
+      </h2>
+      <ol class="list-decimal pl-6 space-y-1">
+        <% cat_notes.each do |note| %>
+          <li><%= link_to note.title, note_path(note), class: "hover:underline", data: { turbo: false } %></li>
+        <% end %>
+      </ol>
+    </section>
+  <% end %>
+</div>
