@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_19_205910) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_22_035551) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "org_name"
     t.string "short_name"
@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_19_205910) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "reminders", id: :integer, charset: "utf8mb3", options: "ENGINE=MyISAM", force: :cascade do |t|
+  create_table "reminders", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.boolean "completed"

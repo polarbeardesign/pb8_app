@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class InvoicesTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @invoice = invoices(:one)
   end
 
@@ -15,14 +16,14 @@ class InvoicesTest < ApplicationSystemTestCase
     click_on "New invoice"
 
     fill_in "Button code", with: @invoice.button_code
-    fill_in "Customer", with: @invoice.customer_id
+    select @invoice.customer.short_name, from: "Customer", match: :first
     fill_in "Invoice date", with: @invoice.invoice_date
     fill_in "Invoice number", with: @invoice.invoice_number
     check "Paid" if @invoice.paid
     fill_in "Pdf address", with: @invoice.pdf_address
     fill_in "Tax amount", with: @invoice.tax_amount
     fill_in "Total amount", with: @invoice.total_amount
-    click_on "Create Invoice"
+    submit_form "Create Invoice"
 
     assert_text "Invoice was successfully created"
     click_on "Back"
@@ -33,14 +34,14 @@ class InvoicesTest < ApplicationSystemTestCase
     click_on "Edit this invoice", match: :first
 
     fill_in "Button code", with: @invoice.button_code
-    fill_in "Customer", with: @invoice.customer_id
+    select @invoice.customer.short_name, from: "Customer", match: :first
     fill_in "Invoice date", with: @invoice.invoice_date
     fill_in "Invoice number", with: @invoice.invoice_number
     check "Paid" if @invoice.paid
     fill_in "Pdf address", with: @invoice.pdf_address
     fill_in "Tax amount", with: @invoice.tax_amount
     fill_in "Total amount", with: @invoice.total_amount
-    click_on "Update Invoice"
+    submit_form "Update Invoice"
 
     assert_text "Invoice was successfully updated"
     click_on "Back"
@@ -48,7 +49,7 @@ class InvoicesTest < ApplicationSystemTestCase
 
   test "should destroy Invoice" do
     visit invoice_url(@invoice)
-    click_on "Destroy this invoice", match: :first
+    submit_form "Destroy this invoice"
 
     assert_text "Invoice was successfully destroyed"
   end

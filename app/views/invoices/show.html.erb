@@ -12,16 +12,10 @@
         <%= link_to "Back to invoices", invoices_path, class: "mt-2 rounded-lg py-2 px-4 bg-gray-200 inline-block font-medium dark:text-zinc-700" %>
       </div>
       <div class="inline-block ml-2">
-        <%= button_to "Destroy this note category", @invoice, method: :delete, class: "cursor-pointer mt-2 rounded-lg py-2 px-4 bg-red-200 font-medium dark:text-zinc-700" %>
+        <%= button_to "Destroy this invoice", @invoice, method: :delete, class: "cursor-pointer mt-2 rounded-lg py-2 px-4 bg-red-200 font-medium dark:text-zinc-700" %>
       </div>
     </div>
 
     <%= render @invoice %>
-
-    <%= link_to "Edit this invoice", edit_invoice_path(@invoice), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to invoices", invoices_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium dark:bg-slate-500" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this invoice", @invoice, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-    </div>
   </div>
 </div>

@@ -8,6 +8,8 @@
     
     <% if authenticated? %>
       <%= link_to "Edit this page content", edit_page_content_path(@page_content), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= link_to "Back to page contents", page_contents_path, class: "ml-2 mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= button_to "Destroy this page content", @page_content, method: :delete, class: "ml-2 mt-2 cursor-pointer rounded-lg py-3 px-5 bg-red-200 inline-block font-medium" %>
     <% end %>
     
   </div>

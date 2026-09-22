@@ -2,6 +2,7 @@ require "test_helper"
 
 class TasksControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as users(:one)
     @task = tasks(:one)
   end
 
@@ -17,7 +18,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create task" do
     assert_difference("Task.count") do
-      post tasks_url, params: { task: { customer_id: @task.customer_id, date_completed: @task.date_completed, description: @task.description, due_date: @task.due_date, invoice_id: @task.invoice_id, notes: @task.notes, priority: @task.priority, status: @task.status, task_name: @task.task_name } }
+      post tasks_url, params: { task: { customer_id: @task.customer_id, date_completed: @task.date_completed, description: @task.description, due_date: @task.due_date, notes: @task.notes, priority: @task.priority, status: @task.status, task_name: @task.task_name } }
     end
 
     assert_redirected_to task_url(Task.last)
@@ -34,7 +35,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update task" do
-    patch task_url(@task), params: { task: { customer_id: @task.customer_id, date_completed: @task.date_completed, description: @task.description, due_date: @task.due_date, invoice_id: @task.invoice_id, notes: @task.notes, priority: @task.priority, status: @task.status, task_name: @task.task_name } }
+    patch task_url(@task), params: { task: { customer_id: @task.customer_id, date_completed: @task.date_completed, description: @task.description, due_date: @task.due_date, notes: @task.notes, priority: @task.priority, status: @task.status, task_name: @task.task_name } }
     assert_redirected_to task_url(@task)
   end
 

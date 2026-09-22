@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class CustomersTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @customer = customers(:one)
   end
 
@@ -21,7 +22,7 @@ class CustomersTest < ApplicationSystemTestCase
     fill_in "Reverse logo", with: @customer.reverse_logo
     fill_in "Short name", with: @customer.short_name
     fill_in "User", with: @customer.user_id
-    click_on "Create Customer"
+    submit_form "Create Customer"
 
     assert_text "Customer was successfully created"
     click_on "Back"
@@ -38,7 +39,7 @@ class CustomersTest < ApplicationSystemTestCase
     fill_in "Reverse logo", with: @customer.reverse_logo
     fill_in "Short name", with: @customer.short_name
     fill_in "User", with: @customer.user_id
-    click_on "Update Customer"
+    submit_form "Update Customer"
 
     assert_text "Customer was successfully updated"
     click_on "Back"
@@ -46,7 +47,7 @@ class CustomersTest < ApplicationSystemTestCase
 
   test "should destroy Customer" do
     visit customer_url(@customer)
-    click_on "Destroy this customer", match: :first
+    submit_form "Destroy this customer"
 
     assert_text "Customer was successfully destroyed"
   end

@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class NoteCategoriesTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @note_category = note_categories(:one)
   end
 
@@ -15,7 +16,7 @@ class NoteCategoriesTest < ApplicationSystemTestCase
     click_on "New note category"
 
     fill_in "Category name", with: @note_category.category_name
-    click_on "Create Note category"
+    submit_form "Create Note category"
 
     assert_text "Note category was successfully created"
     click_on "Back"
@@ -26,7 +27,7 @@ class NoteCategoriesTest < ApplicationSystemTestCase
     click_on "Edit this note category", match: :first
 
     fill_in "Category name", with: @note_category.category_name
-    click_on "Update Note category"
+    submit_form "Update Note category"
 
     assert_text "Note category was successfully updated"
     click_on "Back"
@@ -34,7 +35,7 @@ class NoteCategoriesTest < ApplicationSystemTestCase
 
   test "should destroy Note category" do
     visit note_category_url(@note_category)
-    click_on "Destroy this note category", match: :first
+    submit_form "Destroy this note category"
 
     assert_text "Note category was successfully destroyed"
   end

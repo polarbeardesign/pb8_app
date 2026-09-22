@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class NotesTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @note = notes(:one)
   end
 
@@ -12,12 +13,12 @@ class NotesTest < ApplicationSystemTestCase
 
   test "should create note" do
     visit notes_url
-    click_on "New note"
+    click_on "New Note"
 
     fill_in "Note", with: @note.note
     fill_in "Position", with: @note.position
     fill_in "Title", with: @note.title
-    click_on "Create Note"
+    submit_form "Create Note"
 
     assert_text "Note was successfully created"
     click_on "Back"
@@ -30,7 +31,7 @@ class NotesTest < ApplicationSystemTestCase
     fill_in "Note", with: @note.note
     fill_in "Position", with: @note.position
     fill_in "Title", with: @note.title
-    click_on "Update Note"
+    submit_form "Update Note"
 
     assert_text "Note was successfully updated"
     click_on "Back"
@@ -38,7 +39,7 @@ class NotesTest < ApplicationSystemTestCase
 
   test "should destroy Note" do
     visit note_url(@note)
-    click_on "Destroy this note", match: :first
+    submit_form "Destroy this note"
 
     assert_text "Note was successfully destroyed"
   end

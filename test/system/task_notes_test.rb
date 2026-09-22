@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class TaskNotesTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @task_note = task_notes(:one)
   end
 
@@ -15,9 +16,9 @@ class TaskNotesTest < ApplicationSystemTestCase
     click_on "New task note"
 
     fill_in "Description", with: @task_note.description
-    fill_in "Task", with: @task_note.task_id
+    select @task_note.task.task_detail, from: "Task", match: :first
     fill_in "Title", with: @task_note.title
-    click_on "Create Task note"
+    submit_form "Create Task note"
 
     assert_text "Task note was successfully created"
     click_on "Back"
@@ -28,9 +29,9 @@ class TaskNotesTest < ApplicationSystemTestCase
     click_on "Edit this task note", match: :first
 
     fill_in "Description", with: @task_note.description
-    fill_in "Task", with: @task_note.task_id
+    select @task_note.task.task_detail, from: "Task", match: :first
     fill_in "Title", with: @task_note.title
-    click_on "Update Task note"
+    submit_form "Update Task note"
 
     assert_text "Task note was successfully updated"
     click_on "Back"
@@ -38,7 +39,7 @@ class TaskNotesTest < ApplicationSystemTestCase
 
   test "should destroy Task note" do
     visit task_note_url(@task_note)
-    click_on "Destroy this task note", match: :first
+    submit_form "Destroy this task note"
 
     assert_text "Task note was successfully destroyed"
   end

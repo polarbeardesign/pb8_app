@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class RemindersTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @reminder = reminders(:one)
   end
 
@@ -23,7 +24,7 @@ class RemindersTest < ApplicationSystemTestCase
     fill_in "Task", with: @reminder.task_id
     check "Time critical" if @reminder.time_critical
     fill_in "Title", with: @reminder.title
-    click_on "Create Reminder"
+    submit_form "Create Reminder"
 
     assert_text "Reminder was successfully created"
     click_on "Back"
@@ -42,7 +43,7 @@ class RemindersTest < ApplicationSystemTestCase
     fill_in "Task", with: @reminder.task_id
     check "Time critical" if @reminder.time_critical
     fill_in "Title", with: @reminder.title
-    click_on "Update Reminder"
+    submit_form "Update Reminder"
 
     assert_text "Reminder was successfully updated"
     click_on "Back"
@@ -50,7 +51,7 @@ class RemindersTest < ApplicationSystemTestCase
 
   test "should destroy Reminder" do
     visit reminder_url(@reminder)
-    click_on "Destroy this reminder", match: :first
+    submit_form "Destroy this reminder"
 
     assert_text "Reminder was successfully destroyed"
   end

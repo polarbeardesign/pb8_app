@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class RolesTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @role = roles(:one)
   end
 
@@ -15,7 +16,7 @@ class RolesTest < ApplicationSystemTestCase
     click_on "New role"
 
     fill_in "Role name", with: @role.role_name
-    click_on "Create Role"
+    submit_form "Create Role"
 
     assert_text "Role was successfully created"
     click_on "Back"
@@ -26,7 +27,7 @@ class RolesTest < ApplicationSystemTestCase
     click_on "Edit this role", match: :first
 
     fill_in "Role name", with: @role.role_name
-    click_on "Update Role"
+    submit_form "Update Role"
 
     assert_text "Role was successfully updated"
     click_on "Back"
@@ -34,7 +35,7 @@ class RolesTest < ApplicationSystemTestCase
 
   test "should destroy Role" do
     visit role_url(@role)
-    click_on "Destroy this role", match: :first
+    submit_form "Destroy this role"
 
     assert_text "Role was successfully destroyed"
   end

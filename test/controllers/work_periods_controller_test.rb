@@ -2,6 +2,7 @@ require "test_helper"
 
 class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as users(:one)
     @work_period = work_periods(:one)
   end
 
@@ -20,7 +21,7 @@ class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
       post work_periods_url, params: { work_period: { billable: @work_period.billable, end_time: @work_period.end_time, start_time: @work_period.start_time, task_id: @work_period.task_id, time_note: @work_period.time_note } }
     end
 
-    assert_redirected_to work_period_url(WorkPeriod.last)
+    assert_redirected_to task_url(@work_period.task_id)
   end
 
   test "should show work_period" do
@@ -35,7 +36,7 @@ class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update work_period" do
     patch work_period_url(@work_period), params: { work_period: { billable: @work_period.billable, end_time: @work_period.end_time, start_time: @work_period.start_time, task_id: @work_period.task_id, time_note: @work_period.time_note } }
-    assert_redirected_to work_period_url(@work_period)
+    assert_redirected_to task_url(@work_period.task_id)
   end
 
   test "should destroy work_period" do

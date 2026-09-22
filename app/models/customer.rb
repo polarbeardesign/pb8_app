@@ -1,6 +1,5 @@
 class Customer < ApplicationRecord
   belongs_to :user
-  has_many :customer_accounts, dependent: :destroy
   has_many :invoices, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :work_periods, through: :tasks

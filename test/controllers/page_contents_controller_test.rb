@@ -2,6 +2,7 @@ require "test_helper"
 
 class PageContentsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as users(:one)
     @page_content = page_contents(:one)
   end
 

@@ -2,6 +2,7 @@ require "test_helper"
 
 class NoteCategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as users(:one)
     @note_category = note_categories(:one)
   end
 

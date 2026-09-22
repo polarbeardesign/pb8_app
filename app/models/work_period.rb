@@ -1,7 +1,5 @@
 class WorkPeriod < ApplicationRecord
   belongs_to :task
-  has_one :commute, dependent: :destroy
-  accepts_nested_attributes_for :commute
   scope :time_desc, -> { order(end_time: :desc) }
   scope :billable, -> { where(billable: 1) }
   scope :recent, -> { limit(200) }

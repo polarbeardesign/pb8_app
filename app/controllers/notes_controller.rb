@@ -12,10 +12,14 @@ class NotesController < ApplicationController
           "%#{params[:search]}%", "%#{params[:search]}%")
       end
 
-    # Handle Turbo Stream requests for real-time updates
+    # Handle Turbo Stream requests for real-time updates (the search box's
+    # own fetch call, which sets the Turbo-Frame header explicitly) without
+    # hijacking plain navigations that happen to redirect here (e.g. after
+    # destroying a note) and would otherwise carry over a turbo-stream Accept
+    # header from the originating request.
     respond_to do |format|
       format.html
-      format.turbo_stream
+      format.turbo_stream if turbo_frame_request?
     end
   end
 

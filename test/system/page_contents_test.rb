@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class PageContentsTest < ApplicationSystemTestCase
   setup do
+    sign_in_as users(:one)
     @page_content = page_contents(:one)
   end
 
@@ -16,7 +17,7 @@ class PageContentsTest < ApplicationSystemTestCase
 
     fill_in "Copy", with: @page_content.copy
     fill_in "Title", with: @page_content.title
-    click_on "Create Page content"
+    submit_form "Create Page content"
 
     assert_text "Page content was successfully created"
     click_on "Back"
@@ -28,7 +29,7 @@ class PageContentsTest < ApplicationSystemTestCase
 
     fill_in "Copy", with: @page_content.copy
     fill_in "Title", with: @page_content.title
-    click_on "Update Page content"
+    submit_form "Update Page content"
 
     assert_text "Page content was successfully updated"
     click_on "Back"
@@ -36,7 +37,7 @@ class PageContentsTest < ApplicationSystemTestCase
 
   test "should destroy Page content" do
     visit page_content_url(@page_content)
-    click_on "Destroy this page content", match: :first
+    submit_form "Destroy this page content"
 
     assert_text "Page content was successfully destroyed"
   end

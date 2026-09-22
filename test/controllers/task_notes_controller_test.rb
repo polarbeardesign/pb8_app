@@ -2,6 +2,7 @@ require "test_helper"
 
 class TaskNotesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as users(:one)
     @task_note = task_notes(:one)
   end
 

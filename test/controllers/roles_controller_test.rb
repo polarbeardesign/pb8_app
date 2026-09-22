@@ -2,6 +2,7 @@ require "test_helper"
 
 class RolesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as users(:one)
     @role = roles(:one)
   end
 
