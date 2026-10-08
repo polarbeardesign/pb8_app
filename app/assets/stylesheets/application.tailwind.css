@@ -30,7 +30,7 @@
     @apply text-2xl;
   }
   h4 {
-    @apply text-[1.375rem];
+    @apply text-[1.1rem];
   }
   ul {
     @apply list-disc list-inside;
