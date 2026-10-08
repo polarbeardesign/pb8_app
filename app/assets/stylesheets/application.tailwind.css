@@ -14,7 +14,7 @@
     @apply py-2;
   }
   
-  h1, h2, h3 {
+  h1, h2, h3, h4 {
     @apply font-bold my-2;
   }
   
@@ -29,7 +29,9 @@
   h3 {
     @apply text-2xl;
   }
-
+  h4 {
+    @apply text-[1.375rem];
+  }
   ul {
     @apply list-disc list-inside;
   }
