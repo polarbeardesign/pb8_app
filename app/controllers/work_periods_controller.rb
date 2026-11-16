@@ -6,6 +6,19 @@ class WorkPeriodsController < ApplicationController
     @work_periods = WorkPeriod.all
   end
 
+  # GET /weekly_summary
+  def weekly_summary
+    @since = DateTime.now.beginning_of_week - 1.day
+    @work_periods = WorkPeriod.weekly
+    @tasks = Task.weekly.includes(:customer).to_a
+    @customer_groups = @tasks.group_by(&:customer).sort_by { |customer, _| customer.org_name.to_s.downcase }
+    @total_hours = @tasks.sum { |t| t.hour_tot.to_f }
+    @total_billable = @tasks.sum { |t| t.bill_tot.to_f }
+    @avg_minutes = @work_periods.size > 0 ? (@total_hours * 60) / @work_periods.size : nil
+    @chart_rows = @tasks.map { |t| [ "#{t.customer.short_name} - #{t.task_name}", t.hour_tot.to_f.round(2) ] }
+    @current_period = WorkPeriod.current_job.includes(:task).first
+  end
+
   # GET /work_periods/1 or /work_periods/1.json
   def show
   end

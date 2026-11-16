@@ -33,7 +33,7 @@
 					<% if authenticated? %>
 						<%= link_to "Tasks", tasks_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Reminders", reminders_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
-						<%= link_to "Weekly", work_periods_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+						<%= link_to "Weekly", weekly_summary_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Customers", customers_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Code Notes", notes_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
 						<%= link_to "Admin", admin_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
@@ -73,7 +73,7 @@
 				<% if authenticated? %>
 					<%= link_to "Tasks", tasks_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Reminders", reminders_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
-					<%= link_to "Weekly", work_periods_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
+					<%= link_to "Weekly", weekly_summary_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Customers", customers_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Code Notes", notes_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>
 					<%= link_to "Admin", admin_path, class: "block text-2xl text-[#68a5d2] hover:text-[#3a7cab]" %>

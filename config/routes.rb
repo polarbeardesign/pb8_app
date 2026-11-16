@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get "home" => "page_contents#home"
 
   resources :reminders
+  get "weekly_summary" => "work_periods#weekly_summary", as: :weekly_summary
   resources :work_periods
   resources :tasks
   resources :invoices

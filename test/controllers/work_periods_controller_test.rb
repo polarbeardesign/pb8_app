@@ -11,6 +11,11 @@ class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get weekly summary" do
+    get weekly_summary_url
+    assert_response :success
+  end
+
   test "should get new" do
     get new_work_period_url
     assert_response :success

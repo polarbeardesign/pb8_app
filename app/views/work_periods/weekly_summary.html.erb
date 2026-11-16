@@ -1,0 +1,67 @@
+<% content_for :title, "Weekly Work Summary" %>
+
+<div class="mx-auto md:w-2/3 mb-16 w-full">
+  <% if @current_period %>
+    <div class="py-2 px-3 bg-blue-50 mb-5 text-blue-500 font-medium rounded-lg inline-block italic">
+      Active task: <%= link_to @current_period.task.task_name, task_path(@current_period.task) %>
+      from <%= @current_period.start_time.strftime("%H:%M") %>
+    </div>
+  <% end %>
+
+  <h1 class="font-bold text-4xl mb-5">Weekly Work Summary</h1>
+
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b">
+        <th class="text-left py-1">Task</th>
+        <th class="text-right py-1">Hours</th>
+        <th class="text-right py-1">Billable</th>
+      </tr>
+    </thead>
+
+    <% @customer_groups.each do |customer, tasks| %>
+      <tbody>
+        <tr class="bg-[#0574ab] text-white">
+          <td colspan="3" class="py-1 px-2">
+            <% if customer.reverse_logo.present? %>
+              <img src="<%= customer.reverse_logo %>" />
+              <%= customer.org_name if customer.require_name %>
+            <% else %>
+              <%= customer.org_name %>
+            <% end %>
+          </td>
+        </tr>
+        <% tasks.each do |task| %>
+          <tr class="border-b">
+            <td class="py-1 pl-6"><%= link_to task.task_name, task_path(task) %></td>
+            <td class="py-1 text-right"><%= number_with_precision(task.hour_tot, precision: 2) %></td>
+            <td class="py-1 text-right"><%= number_with_precision(task.bill_tot, precision: 2) %></td>
+          </tr>
+        <% end %>
+        <tr class="bg-gray-100 font-bold">
+          <td class="py-1 pl-2">Subtotal Hours:</td>
+          <td class="py-1 text-right"><%= number_with_precision(tasks.sum { |t| t.hour_tot.to_f }, precision: 2) %></td>
+          <td class="py-1 text-right"><%= number_with_precision(tasks.sum { |t| t.bill_tot.to_f }, precision: 2) %></td>
+        </tr>
+      </tbody>
+    <% end %>
+
+    <tfoot>
+      <tr class="border-t-2 font-bold">
+        <td class="py-2 pl-2">Total:</td>
+        <td class="py-2 text-right"><%= number_with_precision(@total_hours, precision: 2) %></td>
+        <td class="py-2 text-right"><%= number_with_precision(@total_billable, precision: 2) %></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <p class="mt-8 mb-2">Task Breakout (since <%= @since.strftime("%a - %b %d, %y") %>):</p>
+
+  <div data-controller="piechart"
+       data-piechart-rows-value="<%= @chart_rows.to_json %>"
+       class="w-full h-[350px]"></div>
+
+  <% if @avg_minutes %>
+    <p class="mt-4">Avg Time/Task: <%= number_with_precision(@avg_minutes, precision: 2) %> min</p>
+  <% end %>
+</div>
