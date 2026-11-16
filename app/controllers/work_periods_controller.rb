@@ -26,6 +26,24 @@ class WorkPeriodsController < ApplicationController
     @current_period = WorkPeriod.current_job.includes(:task).first
   end
 
+  # GET /weekly?year=2026&week_no=46 (ISO calendar week, Monday first)
+  def weekly
+    today = Date.current
+    year = params[:year].presence&.to_i || today.cwyear
+    week = params[:week_no].presence&.to_i || today.cweek
+    @week_start = begin
+      Date.commercial(year, week, 1)
+    rescue Date::Error
+      today.beginning_of_week
+    end
+    @days = (0..6).map { |i| @week_start + i }
+    @prev_week = @week_start - 7
+    @next_week = @week_start + 7
+    range = @week_start.in_time_zone...(@week_start + 7).in_time_zone
+    @periods_by_day = WorkPeriod.where(start_time: range).order(:start_time)
+                                .includes(task: :customer).group_by { |wp| wp.start_time.to_date }
+  end
+
   # GET /work_periods/1 or /work_periods/1.json
   def show
   end

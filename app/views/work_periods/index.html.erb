@@ -7,7 +7,10 @@
 
   <div class="flex justify-between items-center mb-5">
     <h1 class="font-bold text-4xl">Work Periods</h1>
-    <%= link_to "New work period", new_work_period_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <div class="flex gap-3">
+      <%= link_to "Graphical Week", weekly_path, class: "rounded-lg py-3 px-5 bg-gray-100 dark:bg-slate-500 block font-medium" %>
+      <%= link_to "New work period", new_work_period_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    </div>
   </div>
 
   <% pager = capture do %>

@@ -16,6 +16,19 @@ class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get graphical week" do
+    get weekly_url
+    assert_response :success
+    get weekly_url(year: 2024, week_no: 52)
+    assert_response :success
+    assert_select ".work-period", minimum: 1
+  end
+
+  test "should fall back on invalid week" do
+    get weekly_url(year: 2024, week_no: 99)
+    assert_response :success
+  end
+
   test "should get new" do
     get new_work_period_url
     assert_response :success

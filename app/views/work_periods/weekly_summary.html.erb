@@ -8,7 +8,10 @@
     </div>
   <% end %>
 
-  <h1 class="font-bold text-4xl mb-5">Weekly Work Summary</h1>
+  <div class="flex justify-between items-center mb-5">
+    <h1 class="font-bold text-4xl">Weekly Work Summary</h1>
+    <%= link_to "Graphical Week", weekly_path, class: "rounded-lg py-3 px-5 bg-gray-100 dark:bg-slate-500 block font-medium" %>
+  </div>
 
   <table class="w-full text-sm">
     <thead>

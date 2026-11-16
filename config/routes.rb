@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :reminders
   get "weekly_summary" => "work_periods#weekly_summary", as: :weekly_summary
+  get "weekly" => "work_periods#weekly", as: :weekly
   resources :work_periods
   resources :tasks
   resources :invoices

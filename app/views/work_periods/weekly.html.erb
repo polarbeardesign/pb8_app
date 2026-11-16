@@ -1,0 +1,54 @@
+<% content_for :title, "Graphical Week" %>
+<%# 1 minute = 1px; grid runs 6:00 to 23:00 %>
+<% start_hour = 6 %>
+<% hours = (start_hour..22).to_a %>
+<% grid_height = hours.size * 60 %>
+
+<div class="w-full">
+  <div class="flex justify-between items-center mb-3">
+    <h1 class="font-bold text-4xl">Week of <%= @week_start.strftime("%b %d, %Y") %></h1>
+    <%= link_to "List", work_periods_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+  </div>
+
+  <div class="flex justify-between text-sm mb-3">
+    <%= link_to "<< Previous", weekly_path(year: @prev_week.cwyear, week_no: @prev_week.cweek), class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+    <%= link_to "This week", weekly_path, class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+    <%= link_to "Next >>", weekly_path(year: @next_week.cwyear, week_no: @next_week.cweek), class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+  </div>
+
+  <div class="overflow-x-auto">
+    <div class="min-w-[760px]">
+      <div class="grid grid-cols-[3.5rem_repeat(7,minmax(0,1fr))] text-xs text-white bg-[#1e6da6] dark:bg-gray-700 text-center">
+        <div class="py-1"><%= @week_start.strftime("%b") %></div>
+        <% @days.each do |day| %>
+          <div class="py-1 <%= "font-bold underline" if day == Date.current %>"><%= day.strftime("%A") %><br><%= day.strftime("%d") %></div>
+        <% end %>
+      </div>
+
+      <div class="grid grid-cols-[3.5rem_repeat(7,minmax(0,1fr))] border-b border-gray-200 dark:border-gray-700" style="height: <%= grid_height %>px;">
+        <div class="relative text-xs text-gray-500">
+          <% hours.each_with_index do |h, i| %>
+            <div class="absolute right-1 -translate-y-2" style="top: <%= i * 60 %>px;"><%= h %>:00</div>
+          <% end %>
+        </div>
+
+        <% @days.each do |day| %>
+          <div class="relative border-l border-gray-200 dark:border-gray-700 <%= "bg-sky-50 dark:bg-gray-800" if day == Date.current %>"
+               style="background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 59px, rgba(128,128,128,.25) 59px, rgba(128,128,128,.25) 60px);">
+            <% (@periods_by_day[day] || []).each do |wp| %>
+              <% top = [ (wp.start_time.hour * 60 + wp.start_time.min) - start_hour * 60, 0 ].max %>
+              <% height = [ ((wp.end_time - wp.start_time) / 60).round(1), 14 ].max %>
+              <% height = [ height, grid_height - top ].min %>
+              <div class="work-period absolute inset-x-0.5 overflow-hidden rounded border border-[#1e6da6] bg-[#9dd9ed] text-[11px] leading-tight px-1 text-gray-900"
+                   style="top: <%= top %>px; height: <%= height %>px;"
+                   title="<%= wp.start_time.strftime("%H:%M") %>–<%= wp.end_time.strftime("%H:%M") %> <%= wp.task.task_name %>">
+                <strong><%= link_to wp.task.customer.short_name, edit_work_period_path(wp) %></strong><br>
+                <%= wp.task.task_name %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
