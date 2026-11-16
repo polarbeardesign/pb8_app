@@ -1,21 +1,102 @@
+<% content_for :title, "Work periods" %>
+
 <div class="w-full">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 dark:bg-gray-700 mb-5 text-green-500 dark:text-green-400 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <% content_for :title, "Work periods" %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Work periods</h1>
+  <div class="flex justify-between items-center mb-5">
+    <h1 class="font-bold text-4xl">Work Periods</h1>
     <%= link_to "New work period", new_work_period_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="work_periods" class="min-w-full">
-    <% @work_periods.each do |work_period| %>
-      <%= render work_period %>
-      <p>
-        <%= link_to "Show this work period", work_period, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium dark:bg-slate-500" %>
-      </p>
+  <% pager = capture do %>
+    <% if @total_pages > 1 %>
+      <nav class="flex items-center justify-between text-sm my-3">
+        <% if @page > 1 %>
+          <%= link_to "← Newer", work_periods_path(page: @page - 1), class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+        <% else %><span></span><% end %>
+        <span class="text-gray-500">Page <%= @page %> of <%= @total_pages %></span>
+        <% if @page < @total_pages %>
+          <%= link_to "Older →", work_periods_path(page: @page + 1), class: "text-[#68a5d2] hover:text-[#3a7cab]" %>
+        <% else %><span></span><% end %>
+      </nav>
+    <% end %>
+  <% end %>
+
+  <%= pager %>
+
+  <%# Desktop: table %>
+  <div class="hidden md:block">
+    <table class="border-collapse w-full text-sm">
+      <thead class="text-xs text-white bg-[#1e6da6] dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th class="px-2 py-1 text-left">ID</th>
+          <th class="px-2 py-1 text-left w-28">Date</th>
+          <th class="px-2 py-1 text-left w-24">Start</th>
+          <th class="px-2 py-1 text-left w-24">End</th>
+          <th class="px-2 py-1 text-right">Hours</th>
+          <th class="px-2 py-1">Bill</th>
+          <th class="px-2 py-1 text-left">Task</th>
+          <th class="px-2 py-1 text-left">Notes</th>
+        </tr>
+      </thead>
+      <% @weeks.each do |week| %>
+        <% week_start = week.first.start_time.to_date.beginning_of_week(:sunday) %>
+        <tbody>
+          <tr class="bg-gray-100 dark:bg-gray-800">
+            <td colspan="8" class="px-2 py-1 font-bold">Week <%= week.first.start_time.strftime("%U") %> <span class="font-normal text-gray-500">(from <%= week_start.strftime("%b %d, %Y") %>)</span></td>
+          </tr>
+          <% week.each do |wp| %>
+            <tr class="odd:bg-white even:bg-[#f2f7fa] dark:odd:bg-gray-900 dark:even:bg-gray-800 border-b border-gray-200 dark:border-gray-700 align-top">
+              <td class="px-2 py-1"><%= link_to wp.id, edit_work_period_path(wp) %></td>
+              <td class="px-2 py-1 whitespace-nowrap"><%= wp.end_time.strftime("%a, %m/%d") %></td>
+              <td class="px-2 py-1 whitespace-nowrap"><%= wp.start_time.strftime("%I:%M %p") %></td>
+              <td class="px-2 py-1 whitespace-nowrap"><%= wp.end_time.strftime("%I:%M %p") %></td>
+              <td class="px-2 py-1 text-right"><%= number_with_precision((wp.end_time - wp.start_time) / 3600, precision: 2) %></td>
+              <td class="px-2 py-1 text-center"><%= "✓" if wp.billable %></td>
+              <td class="px-2 py-1">
+                <strong><%= wp.task.customer.short_name %></strong><br>
+                <%= link_to wp.task.task_name, task_path(wp.task) %>
+              </td>
+              <td class="px-2 py-1"><%= markdown(wp.time_note) if wp.time_note.present? %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+
+  <%# Mobile: cards %>
+  <div class="md:hidden">
+    <% @weeks.each do |week| %>
+      <% week_start = week.first.start_time.to_date.beginning_of_week(:sunday) %>
+      <div class="rounded-lg px-4 py-2 mb-3 font-bold text-white bg-[#1e6da6] dark:bg-gray-700">
+        Week <%= week.first.start_time.strftime("%U") %>
+        <span class="font-normal text-sm">from <%= week_start.strftime("%b %d, %Y") %></span>
+      </div>
+      <% week.each do |wp| %>
+        <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 mb-3">
+          <div class="flex justify-between items-start gap-3">
+            <div>
+              <%= link_to wp.end_time.strftime("%a - %b %d, %y"), edit_work_period_path(wp), class: "font-medium" %>
+              <div class="text-sm text-gray-500 dark:text-gray-400"><%= wp.start_time.strftime("%I:%M %p") %> ~ <%= wp.end_time.strftime("%I:%M %p") %></div>
+              <div class="text-sm mt-1"><strong><%= wp.task.customer.short_name %></strong> · <%= link_to wp.task.task_name, task_path(wp.task) %></div>
+            </div>
+            <div class="flex gap-2 shrink-0">
+              <span class="rounded-full px-2 py-0.5 text-xs font-medium bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200"><%= number_with_precision((wp.end_time - wp.start_time) / 3600, precision: 2) %> hrs</span>
+              <% if wp.billable %>
+                <span class="rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">billable</span>
+              <% end %>
+            </div>
+          </div>
+          <% if wp.time_note.present? %>
+            <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800 break-words"><%= markdown(wp.time_note) %></div>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   </div>
+
+  <%= pager %>
 </div>

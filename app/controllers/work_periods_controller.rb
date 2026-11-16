@@ -3,7 +3,14 @@ class WorkPeriodsController < ApplicationController
 
   # GET /work_periods or /work_periods.json
   def index
-    @work_periods = WorkPeriod.all
+    @per_page = 50
+    @page = [ params[:page].to_i, 1 ].max
+    @total_count = WorkPeriod.count
+    @total_pages = [ (@total_count / @per_page.to_f).ceil, 1 ].max
+    @work_periods = WorkPeriod.time_desc.includes(task: :customer)
+                              .offset((@page - 1) * @per_page).limit(@per_page).to_a
+    # consecutive rows sharing a Sunday-based week number (%U) form a group
+    @weeks = @work_periods.chunk { |wp| wp.start_time.strftime("%Y-%U") }.map(&:last)
   end
 
   # GET /weekly_summary

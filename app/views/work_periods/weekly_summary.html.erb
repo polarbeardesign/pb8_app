@@ -57,9 +57,7 @@
 
   <p class="mt-8 mb-2">Task Breakout (since <%= @since.strftime("%a - %b %d, %y") %>):</p>
 
-  <div data-controller="piechart"
-       data-piechart-rows-value="<%= @chart_rows.to_json %>"
-       class="w-full h-[350px]"></div>
+  <%= pie_chart @chart_rows, height: "350px", colors: %w[#ceeffa #9dd9ed #71bfd9 #4a9fbb #2c85a2 #0e7395], suffix: " hrs", legend: "right" %>
 
   <% if @avg_minutes %>
     <p class="mt-4">Avg Time/Task: <%= number_with_precision(@avg_minutes, precision: 2) %> min</p>
