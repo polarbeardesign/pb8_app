@@ -62,7 +62,7 @@
                 <strong><%= wp.task.customer.short_name %></strong><br>
                 <%= link_to wp.task.task_name, task_path(wp.task) %>
               </td>
-              <td class="px-2 py-1"><%= markdown(wp.time_note) if wp.time_note.present? %></td>
+              <td class="px-2 py-1"><%= markdown(wp.time_note) if wp.time_note.present? %><%= render "work_periods/files", work_period: wp %></td>
             </tr>
           <% end %>
         </tbody>
@@ -93,8 +93,8 @@
               <% end %>
             </div>
           </div>
-          <% if wp.time_note.present? %>
-            <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800 break-words"><%= markdown(wp.time_note) %></div>
+          <% if wp.time_note.present? || wp.files.attached? %>
+            <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800 break-words"><%= markdown(wp.time_note) if wp.time_note.present? %><%= render "work_periods/files", work_period: wp %></div>
           <% end %>
         </div>
       <% end %>

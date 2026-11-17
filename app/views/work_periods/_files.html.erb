@@ -1,0 +1,14 @@
+<%# locals: (work_period:) %>
+<% if work_period.files.attached? %>
+  <div class="flex flex-wrap gap-2 mt-2">
+    <% work_period.files.each do |file| %>
+      <% if file.image? %>
+        <%= link_to rails_blob_path(file, disposition: "inline"), target: "_blank", rel: "noopener", title: file.filename.to_s do %>
+          <%= image_tag rails_blob_path(file), alt: file.filename.to_s, loading: "lazy", class: "h-20 w-auto max-w-40 rounded border border-gray-200 dark:border-gray-700 object-cover" %>
+        <% end %>
+      <% else %>
+        <%= link_to "📄 #{file.filename}", rails_blob_path(file, disposition: "inline"), target: "_blank", rel: "noopener", class: "text-sm rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-[#68a5d2] hover:text-[#3a7cab]" %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

@@ -16,6 +16,11 @@
     <% end %>
   </p>
 
+  <div class="my-5">
+    <strong class="block font-medium mb-1">Attachments:</strong>
+    <%= render "work_periods/files", work_period: work_period %>
+  </div>
+
   <p class="my-5">
     <strong class="block font-medium mb-1">Billable:</strong>
     <%= work_period.billable %>

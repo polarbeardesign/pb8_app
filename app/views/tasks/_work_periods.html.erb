@@ -1,4 +1,4 @@
-<% work_periods = @task.work_periods.time_desc.to_a %>
+<% work_periods = @task.work_periods.time_desc.with_attached_files.to_a %>
 <% hours_for = {} %>
 <% total_hours = 0 %>
 <% total_bill_hours = 0 %>
@@ -32,7 +32,7 @@
     </td>
     <td class="text-right"><%= hours %></td>
     <td class="text-right"><% if work_period.billable == true %><%= hours %><% end %></td>
-    <td><% if work_period.end_time != work_period.start_time %><%= markdown(work_period.time_note) %><% end %></td>
+    <td><% if work_period.end_time != work_period.start_time %><%= markdown(work_period.time_note) %><% end %><%= render "work_periods/files", work_period: work_period %></td>
   </tr>
 <% end %>
   <tr>
@@ -78,8 +78,8 @@
           <% end %>
         </div>
       </div>
-      <% if work_period.end_time != work_period.start_time && work_period.time_note.present? %>
-        <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800 break-words"><%= markdown(work_period.time_note) %></div>
+      <% if (work_period.end_time != work_period.start_time && work_period.time_note.present?) || work_period.files.attached? %>
+        <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800 break-words"><%= markdown(work_period.time_note) if work_period.end_time != work_period.start_time %><%= render "work_periods/files", work_period: work_period %></div>
       <% end %>
     </div>
   <% end %>

@@ -7,7 +7,7 @@ class WorkPeriodsController < ApplicationController
     @page = [ params[:page].to_i, 1 ].max
     @total_count = WorkPeriod.count
     @total_pages = [ (@total_count / @per_page.to_f).ceil, 1 ].max
-    @work_periods = WorkPeriod.time_desc.includes(task: :customer)
+    @work_periods = WorkPeriod.time_desc.includes(task: :customer).with_attached_files
                               .offset((@page - 1) * @per_page).limit(@per_page).to_a
     # consecutive rows sharing a Sunday-based week number (%U) form a group
     @weeks = @work_periods.chunk { |wp| wp.start_time.strftime("%Y-%U") }.map(&:last)
@@ -60,9 +60,11 @@ class WorkPeriodsController < ApplicationController
   # POST /work_periods or /work_periods.json
   def create
     @work_period = WorkPeriod.new(work_period_params)
+    @work_period.files.attach(uploaded_files) if uploaded_files.any?
 
     respond_to do |format|
       if @work_period.save
+        purge_removed_files
         # format.html { redirect_to @work_period, notice: "Work period was successfully created." }
         format.html { redirect_to task_path(@work_period.task_id), notice: "Work period was successfully created [start]." }
 
@@ -77,7 +79,11 @@ class WorkPeriodsController < ApplicationController
   # PATCH/PUT /work_periods/1 or /work_periods/1.json
   def update
     respond_to do |format|
-      if @work_period.update(work_period_params)
+      @work_period.assign_attributes(work_period_params)
+      # assigning files= would replace existing ones; attach appends
+      @work_period.files.attach(uploaded_files) if uploaded_files.any?
+      if @work_period.save
+        purge_removed_files
         # format.html { redirect_to @work_period, notice: "Work period was successfully updated." }
         format.html { redirect_to task_path(@work_period.task_id), notice: "Work period was successfully updated." }
         format.json { render :show, status: :ok, location: @work_period }
@@ -111,5 +117,15 @@ class WorkPeriodsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def work_period_params
       params.expect(work_period: [ :end_time, :start_time, :time_note, :billable, :task_id ])
+    end
+
+    def uploaded_files
+      Array(params.dig(:work_period, :files)).compact_blank
+    end
+
+    # Files ticked "remove" on the edit form
+    def purge_removed_files
+      ids = Array(params[:remove_file_ids]).compact_blank
+      @work_period.files_attachments.where(id: ids).find_each(&:purge) if ids.any?
     end
 end

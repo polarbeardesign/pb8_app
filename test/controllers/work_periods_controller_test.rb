@@ -29,6 +29,35 @@ class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should attach multiple pdfs and images" do
+    pdf = fixture_file_upload("sample.pdf", "application/pdf")
+    png = fixture_file_upload("sample.png", "image/png")
+    patch work_period_url(@work_period), params: { work_period: { billable: "0", files: [ pdf, png ] } }
+    assert_equal 2, @work_period.reload.files.count
+
+    # a second upload appends rather than replaces
+    patch work_period_url(@work_period), params: { work_period: { billable: "0", files: [ fixture_file_upload("sample.png", "image/png") ] } }
+    assert_equal 3, @work_period.reload.files.count
+
+    get work_period_url(@work_period)
+    assert_response :success
+    assert_select "img", minimum: 1
+  end
+
+  test "should reject disallowed file types" do
+    txt = fixture_file_upload("bad.txt", "text/plain")
+    patch work_period_url(@work_period), params: { work_period: { billable: "0", files: [ txt ] } }
+    assert_response :unprocessable_entity
+    assert_equal 0, @work_period.reload.files.count
+  end
+
+  test "should remove ticked attachments" do
+    @work_period.files.attach(io: file_fixture("sample.png").open, filename: "sample.png", content_type: "image/png")
+    att = @work_period.files_attachments.first
+    patch work_period_url(@work_period), params: { work_period: { billable: "0" }, remove_file_ids: [ att.id ] }
+    assert_equal 0, @work_period.reload.files.count
+  end
+
   test "should get new" do
     get new_work_period_url
     assert_response :success
