@@ -52,3 +52,7 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+Setting up Docker in production rlife8.txt
+/public/uploads/.DS_Store
+/public/uploads/client_logos/.DS_Store
