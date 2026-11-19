@@ -33,19 +33,11 @@
     @apply text-[1.1rem];
   }
   ul {
-    @apply list-disc list-inside;
-  }
-
-  ul > li > ul {
-    @apply ml-6;
+    @apply list-disc list-outside pl-5;
   }
 
   ol {
-    @apply list-decimal list-inside;
-  }
-
-  ol > li > ul {
-    @apply ml-6;
+    @apply list-decimal list-outside pl-6;
   }
 
   table {
@@ -54,6 +46,10 @@
 
   td, th {
     @apply py-1 px-2 text-sm align-top text-wrap text-pretty;
+  }
+
+  td > :first-child, th > :first-child {
+    @apply mt-0 pt-0;
   }
 
   pre {
