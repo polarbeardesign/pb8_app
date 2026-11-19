@@ -5,7 +5,7 @@ services:
     container_name: pb8_app_web
     command: bundle exec puma -C config/puma.rb
     ports:
-      - "3002:3000"
+      - "127.0.0.1:3002:3000"
     volumes:
       - .:/usr/src/app
     env_file:
