@@ -2,6 +2,7 @@ services:
 
   web:
     build: .
+    restart: unless-stopped
     container_name: pb8_app_web
     command: bundle exec puma -C config/puma.rb
     ports:
@@ -17,6 +18,7 @@ services:
 
   redis:
     image: redis
+    restart: unless-stopped
 
   database:
     image: mysql
