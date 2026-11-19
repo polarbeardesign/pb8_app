@@ -4,7 +4,7 @@ services:
     build: .
     restart: unless-stopped
     container_name: pb8_app_web
-    command: bundle exec puma -C config/puma.rb
+    command: bash -c "bin/rails db:prepare && bundle exec puma -C config/puma.rb"
     ports:
       - "127.0.0.1:3002:3000"
     volumes:
