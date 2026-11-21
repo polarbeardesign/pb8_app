@@ -11,7 +11,7 @@
   </div>
 
   <% if @open_reminders.any? %>
-    <ul class="space-y-3">
+    <ul class="space-y-3 list-none">
       <% @open_reminders.each do |reminder| %>
         <% badge = reminder.importance >= 8 ? "bg-red-100 text-red-700" : (reminder.importance >= 5 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600") %>
         <li id="<%= dom_id reminder %>" class="rounded-lg border border-gray-200 dark:border-gray-700 p-3 <%= "border-l-4 border-l-red-500" if reminder.overdue? %>">
@@ -37,7 +37,7 @@
               <%= form.select :importance, (1..10).to_a.reverse, {},
                     title: "Change priority", "aria-label": "Priority",
                     data: { action: "change->autosubmit#submit" },
-                    class: "rounded-full pl-2.5 pr-2 py-0.5 text-xs font-semibold cursor-pointer border-0 text-center #{badge}" %>
+                    class: "appearance-none bg-none rounded-full px-2.5 py-0.5 text-xs font-semibold cursor-pointer border-0 text-center [text-align-last:center] #{badge}" %>
             <% end %>
           </div>
           <div class="flex items-center justify-end gap-4 mt-3">
@@ -53,7 +53,7 @@
 
   <% if @done_reminders.any? %>
     <h2 class="text-lg font-bold pb-1 mb-3 mt-10 border-b border-gray-200 dark:border-gray-700">Recently completed</h2>
-    <ul class="text-sm space-y-1">
+    <ul class="text-sm space-y-1 list-none">
       <% @done_reminders.each do |reminder| %>
         <li class="flex items-center gap-2 text-gray-500">
           <%= render "toggle", reminder: reminder %>

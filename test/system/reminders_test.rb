@@ -11,14 +11,25 @@ class RemindersTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Reminders"
   end
 
+  # Stimulus connects after the page paints; changing a field before then
+  # wouldn't submit anything.
+  def wait_for_stimulus(identifier)
+    page.document.synchronize(5) do
+      connected = page.evaluate_script("window.Stimulus?.controllers?.some(c => c.identifier === '#{identifier}')")
+      raise Capybara::ElementNotFound, "Stimulus controller #{identifier} not connected" unless connected
+    end
+  end
+
   test "completing and re-prioritising from the list saves without a button" do
     visit reminders_url
+    wait_for_stimulus("autosubmit")
     within "##{dom_id(@reminder)}" do
       find("select[aria-label='Priority']").select("9")
     end
     assert_text "Reminder was successfully updated"
     assert_equal 9, @reminder.reload.importance
 
+    wait_for_stimulus("autosubmit")
     within "##{dom_id(@reminder)}" do
       find("input[type=checkbox][aria-label='Completed']").check
     end
