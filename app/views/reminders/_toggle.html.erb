@@ -1,0 +1,7 @@
+<%# locals: (reminder:) %>
+<%= form_with model: reminder, data: { controller: "autosubmit" }, class: "contents" do |form| %>
+  <%= hidden_field_tag :inline, 1 %>
+  <%= form.check_box :completed, title: (reminder.completed? ? "Mark not done" : "Mark done"),
+        "aria-label": "Completed", data: { action: "change->autosubmit#submit" },
+        class: "h-5 w-5 rounded cursor-pointer" %>
+<% end %>

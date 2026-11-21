@@ -1,0 +1,6 @@
+<%# locals: (reminder:, active: false) %>
+<% if active %>
+  <span class="text-sm font-medium text-green-600">● In progress</span>
+<% else %>
+  <%= link_to "Start", task_path(reminder.task), data: { turbo: false }, class: "text-sm text-blue-600 hover:underline" %>
+<% end %>
