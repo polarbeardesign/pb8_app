@@ -30,13 +30,12 @@ class RemindersTest < ApplicationSystemTestCase
     visit reminders_url
     click_on "New reminder"
 
-    fill_in "Change count", with: @reminder.change_count
-    check "Completed" if @reminder.completed
+    check "Complete" if @reminder.completed
     fill_in "Description", with: @reminder.description
-    fill_in "Due", with: @reminder.due
-    fill_in "Position", with: @reminder.position
-    fill_in "Reminder date", with: @reminder.reminder_date
-    fill_in "Task", with: @reminder.task_id
+    fill_in "Due date", with: @reminder.due
+    fill_in "Remind on", with: @reminder.reminder_date
+    find("#reminder_task_id option[value='#{@reminder.task_id}']").select_option
+    select "7", from: "Priority (1–10)"
     check "Time critical" if @reminder.time_critical
     fill_in "Title", with: @reminder.title
     submit_form "Create Reminder"
@@ -49,13 +48,12 @@ class RemindersTest < ApplicationSystemTestCase
     visit reminder_url(@reminder)
     click_on "Edit", match: :first
 
-    fill_in "Change count", with: @reminder.change_count
-    check "Completed" if @reminder.completed
+    check "Complete" if @reminder.completed
     fill_in "Description", with: @reminder.description
-    fill_in "Due", with: @reminder.due
-    fill_in "Position", with: @reminder.position
-    fill_in "Reminder date", with: @reminder.reminder_date
-    fill_in "Task", with: @reminder.task_id
+    fill_in "Due date", with: @reminder.due
+    fill_in "Remind on", with: @reminder.reminder_date
+    find("#reminder_task_id option[value='#{@reminder.task_id}']").select_option
+    select "7", from: "Priority (1–10)"
     check "Time critical" if @reminder.time_critical
     fill_in "Title", with: @reminder.title
     submit_form "Update Reminder"
