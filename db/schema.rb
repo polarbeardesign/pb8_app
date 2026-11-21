@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_16_195616) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_21_171325) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -104,6 +104,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_16_195616) do
     t.integer "position", default: 0, null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.integer "importance", default: 5, null: false
     t.index ["task_id"], name: "index_reminders_on_task_id"
   end
 

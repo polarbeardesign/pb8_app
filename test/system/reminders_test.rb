@@ -11,6 +11,21 @@ class RemindersTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Reminders"
   end
 
+  test "completing and re-prioritising from the list saves without a button" do
+    visit reminders_url
+    within "##{dom_id(@reminder)}" do
+      find("select[aria-label='Priority']").select("9")
+    end
+    assert_text "Reminder was successfully updated"
+    assert_equal 9, @reminder.reload.importance
+
+    within "##{dom_id(@reminder)}" do
+      find("input[type=checkbox][aria-label='Completed']").check
+    end
+    assert_text "Recently completed"
+    assert @reminder.reload.completed?
+  end
+
   test "should create reminder" do
     visit reminders_url
     click_on "New reminder"
