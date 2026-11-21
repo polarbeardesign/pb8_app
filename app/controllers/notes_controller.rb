@@ -4,13 +4,13 @@ class NotesController < ApplicationController
   # GET /notes or /notes.json
   def index
     @notes = Note.all
-	  @category_list = NoteCategory.alpha_ordered.all
+    @category_list = NoteCategory.alpha_ordered.all
     @categories = NoteCategory.single(params[:cat_id]).all
 
     if params[:search].present?
-      @notes = @notes.where("title LIKE ? OR note LIKE ?", 
+      @notes = @notes.where("title LIKE ? OR note LIKE ?",
           "%#{params[:search]}%", "%#{params[:search]}%")
-      end
+    end
 
     # Handle Turbo Stream requests for real-time updates (the search box's
     # own fetch call, which sets the Turbo-Frame header explicitly) without
@@ -30,12 +30,12 @@ class NotesController < ApplicationController
   # GET /notes/new
   def new
     @note = Note.new
-		@categories = NoteCategory.alpha_ordered.all
+    @categories = NoteCategory.alpha_ordered.all
   end
 
   # GET /notes/1/edit
   def edit
-		@categories = NoteCategory.alpha_ordered.all
+    @categories = NoteCategory.alpha_ordered.all
   end
 
   # POST /notes or /notes.json
@@ -79,7 +79,7 @@ class NotesController < ApplicationController
         @note.note_categories.delete(category)
       end
     end
-    
+
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @note, notice: "Note was successfully updated." }

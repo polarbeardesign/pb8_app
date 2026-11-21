@@ -1,5 +1,20 @@
 require "test_helper"
 
+# Capybara 3.40.0 resets Chrome between tests with
+# Storage.clearDataForOrigin(origin: "*"), which current Chrome rejects with
+# "invalid argument: * is not a valid URL". All it needs there is to clear
+# cookies, so do that directly. Remove once Capybara ships a fix.
+module ChromeClearCookiesCompat
+  def send_command(command_params)
+    if command_params[:cmd] == "Storage.clearDataForOrigin" && command_params.dig(:params, :origin) == "*"
+      super(cmd: "Network.clearBrowserCookies", params: {})
+    else
+      super
+    end
+  end
+end
+Selenium::WebDriver::Chromium::Features.prepend(ChromeClearCookiesCompat)
+
 Capybara.register_driver :headless_chrome_no_autofill do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument("--headless")

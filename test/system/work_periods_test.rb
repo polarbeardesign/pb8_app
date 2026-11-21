@@ -8,7 +8,7 @@ class WorkPeriodsTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit work_periods_url
-    assert_selector "h1", text: "Work periods"
+    assert_selector "h1", text: "Work Periods"
   end
 
   test "should create work period" do
