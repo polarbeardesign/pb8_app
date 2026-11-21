@@ -58,6 +58,20 @@ class RemindersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show page displays priority and a start button for open reminders" do
+    @reminder.update!(importance: 8, description: "Some **details**", time_critical: true)
+    get reminder_url(@reminder)
+    assert_response :success
+    assert_select "dd", text: /8 \/ 10 · Time critical/
+    assert_select "a", text: "Start"
+    assert_select "strong", text: "details"
+
+    @reminder.update!(completed: true)
+    get reminder_url(@reminder)
+    assert_select "a", text: "Start", count: 0
+    assert_select "h1.line-through"
+  end
+
   test "should get edit" do
     get edit_reminder_url(@reminder)
     assert_response :success

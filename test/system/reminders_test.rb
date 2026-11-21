@@ -47,7 +47,7 @@ class RemindersTest < ApplicationSystemTestCase
 
   test "should update Reminder" do
     visit reminder_url(@reminder)
-    click_on "Edit this reminder", match: :first
+    click_on "Edit", match: :first
 
     fill_in "Change count", with: @reminder.change_count
     check "Completed" if @reminder.completed
@@ -66,7 +66,7 @@ class RemindersTest < ApplicationSystemTestCase
 
   test "should destroy Reminder" do
     visit reminder_url(@reminder)
-    submit_form "Destroy this reminder"
+    accept_confirm { click_on "Delete" }
 
     assert_text "Reminder was successfully destroyed"
   end

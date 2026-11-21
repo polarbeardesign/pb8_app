@@ -11,6 +11,7 @@ class RemindersController < ApplicationController
 
   # GET /reminders/1 or /reminders/1.json
   def show
+    @active_task_ids = WorkPeriod.current_job.pluck(:task_id)
   end
 
   # GET /reminders/new

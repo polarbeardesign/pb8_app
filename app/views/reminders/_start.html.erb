@@ -1,6 +1,8 @@
-<%# locals: (reminder:, active: false) %>
+<%# locals: (reminder:, active: false, size: :small) %>
+<% large = size == :large %>
 <% if active %>
-  <span class="text-sm font-medium text-green-600">● In progress</span>
+  <span class="<%= large ? "rounded-md py-3 px-8 bg-green-100 text-green-700 text-base" : "text-sm text-green-600" %> font-medium">● In progress</span>
 <% else %>
-  <%= link_to "Start", task_path(reminder.task), data: { turbo: false }, class: "text-sm text-blue-600 hover:underline" %>
+  <%= link_to "Start", task_path(reminder.task), data: { turbo: false },
+        class: (large ? "rounded-md py-3 px-8 bg-blue-600 hover:bg-blue-500 text-white font-medium" : "text-sm text-blue-600 hover:underline") %>
 <% end %>
