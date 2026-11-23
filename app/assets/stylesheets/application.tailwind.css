@@ -32,6 +32,10 @@
   h4 {
     @apply text-[1.1rem];
   }
+  a:link, a:visited {
+    @apply text-sky-900 dark:text-sky-300 no-underline;
+  }
+
   ul {
     @apply list-disc list-outside pl-5;
   }
