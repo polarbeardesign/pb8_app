@@ -32,7 +32,8 @@
   h4 {
     @apply text-[1.1rem];
   }
-  a:link, a:visited {
+  /* :where keeps specificity at a plain `a`, so utility classes (text-white on buttons etc.) override it */
+  a:where(:link, :visited) {
     @apply text-sky-900 dark:text-sky-300 no-underline;
   }
 

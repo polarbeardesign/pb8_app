@@ -116,7 +116,7 @@ class WorkPeriodsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def work_period_params
-      params.expect(work_period: [ :end_time, :start_time, :time_note, :billable, :task_id ])
+      params.expect(work_period: [ :end_time, :start_time, :time_note, :billable, :task_id, :reminder_id ])
     end
 
     def uploaded_files

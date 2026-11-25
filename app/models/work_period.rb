@@ -1,5 +1,6 @@
 class WorkPeriod < ApplicationRecord
   belongs_to :task
+  belongs_to :reminder, optional: true
   has_many_attached :files
 
   ALLOWED_FILE_TYPES = %w[application/pdf image/png image/jpeg image/gif image/webp image/heic].freeze
@@ -12,7 +13,15 @@ class WorkPeriod < ApplicationRecord
   # for use in current week's time summary
   # beginning_of_week defaults to Monday, so subtracting one day from result
   scope :weekly,  lambda { where ("work_periods.end_time > ?"), (DateTime.now.beginning_of_week - 1.day) }
-  scope :current_job, -> { where("start_time = end_time").limit(1) }
+  # running periods (start_time == end_time); callers wanting one use .first
+  scope :current_job, -> { where("start_time = end_time") }
+
+  # Seconds worked; a running period (start_time == end_time) is 0.
+  def duration
+    return 0 if start_time.nil? || end_time.nil?
+
+    [ (end_time - start_time).to_i, 0 ].max
+  end
 
   private
 

@@ -93,4 +93,13 @@ class WorkPeriodsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to work_periods_url
   end
+
+  test "create stores the reminder it was started from" do
+    reminder = reminders(:one)
+    now = Time.current
+    assert_difference("WorkPeriod.count") do
+      post work_periods_url, params: { work_period: { task_id: reminder.task_id, reminder_id: reminder.id, start_time: now, end_time: now } }
+    end
+    assert_equal reminder.id, WorkPeriod.order(:id).last.reminder_id
+  end
 end

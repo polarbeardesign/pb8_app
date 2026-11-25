@@ -4,7 +4,7 @@ class RemindersController < ApplicationController
   # GET /reminders or /reminders.json
   def index
     @reminders = Reminder.all
-    @open_reminders = Reminder.active.includes(task: :customer).by_importance
+    @open_reminders = Reminder.active.includes(:work_periods, task: :customer).by_importance
     @done_reminders = Reminder.recently_done.includes(task: :customer)
     @active_task_ids = WorkPeriod.current_job.pluck(:task_id)
   end
@@ -12,6 +12,8 @@ class RemindersController < ApplicationController
   # GET /reminders/1 or /reminders/1.json
   def show
     @active_task_ids = WorkPeriod.current_job.pluck(:task_id)
+    @work_periods = @reminder.work_periods.with_attached_files.time_desc.to_a
+    @siblings = Reminder.active.where(task_id: @reminder.task_id).where.not(id: @reminder.id).by_importance
   end
 
   # GET /reminders/new
@@ -70,6 +72,6 @@ class RemindersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reminder_params
-      params.expect(reminder: [ :title, :description, :completed, :time_critical, :task_id, :reminder_date, :due, :change_count, :position, :importance ])
+      params.expect(reminder: [ :title, :description, :completed, :time_critical, :task_id, :reminder_date, :due, :change_count, :position, :importance, :estimate_hours, :recurrence ])
     end
 end

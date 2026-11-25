@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_21_171325) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_25_200543) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -105,6 +105,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_21_171325) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "importance", default: 5, null: false
+    t.decimal "estimate_hours", precision: 5, scale: 2
+    t.string "recurrence"
     t.index ["task_id"], name: "index_reminders_on_task_id"
   end
 
@@ -162,6 +164,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_21_171325) do
     t.integer "task_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.integer "reminder_id"
+    t.index ["reminder_id"], name: "index_work_periods_on_reminder_id"
     t.index ["task_id"], name: "index_work_periods_on_task_id"
   end
 

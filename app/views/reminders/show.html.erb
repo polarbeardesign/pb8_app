@@ -1,54 +1,126 @@
 <% content_for :title, @reminder.title %>
 
+<%
+  r = @reminder
+  badge = r.importance >= 8 ? "bg-red-100 text-red-700" : (r.importance >= 5 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600")
+  days = r.due && (r.due - Date.current).to_i
+  due_text = if r.due.nil? then nil
+             elsif r.completed? then "Due #{r.due.strftime('%b %-d, %Y')}"
+             elsif days < 0 then "Overdue · #{r.due.strftime('%b %-d')} (#{pluralize(-days, 'day')})"
+             elsif days == 0 then "Due today"
+             elsif days == 1 then "Due tomorrow"
+             elsif days <= 7 then "Due in #{days} days · #{r.due.strftime('%b %-d')}"
+             else "Due #{r.due.strftime('%b %-d, %Y')}"
+             end
+  due_class = r.overdue? ? "bg-red-100 text-red-700" : "bg-sky-50 text-sky-800"
+  spent = r.hours_spent
+  est = r.estimate_hours&.to_f
+  over = est && spent > est
+  pct = est && est.positive? ? [ (spent / est * 100).round, 100 ].min : 0
+  hrs = ->(v) { "#{format('%g', v)} #{v == 1 ? 'hr' : 'hrs'}" }
+%>
+
 <div class="w-full max-w-2xl mx-auto">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 dark:bg-gray-700 mb-5 text-green-500 dark:text-green-400 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex justify-between items-start gap-4 mb-6">
-    <h1 class="font-bold text-4xl break-words min-w-0 <%= "line-through text-gray-500" if @reminder.completed? %>"><%= @reminder.title %></h1>
-    <div class="flex gap-2 shrink-0">
-      <%= link_to "Edit", edit_reminder_path(@reminder), class: "rounded-md py-3 px-5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 font-medium" %>
-      <%= link_to "Back", reminders_path, class: "rounded-md py-3 px-5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 font-medium" %>
+  <div class="mb-6">
+    <%= link_to r.task_label, task_path(r.task), class: "text-sm text-gray-400 hover:underline" %>
+    <h1 class="font-bold text-3xl sm:text-4xl leading-tight break-words <%= "line-through text-gray-500" if r.completed? %>"><%= r.title %></h1>
+    <div class="flex flex-wrap items-center gap-2 mt-3 text-xs font-semibold">
+      <span class="rounded-full px-2.5 py-1 <%= badge %>">Priority <%= r.importance %>/10</span>
+      <% if r.time_critical? %><span class="rounded-full px-2.5 py-1 bg-red-100 text-red-700">Time critical</span><% end %>
+      <% if due_text %><span class="rounded-full px-2.5 py-1 <%= due_class %>"><%= due_text %></span><% end %>
+      <% if r.recurrence.present? %><span class="rounded-full px-2.5 py-1 bg-gray-100 text-gray-600">↻ <%= r.recurrence %></span><% end %>
+      <% if r.reminder_date %><span class="rounded-full px-2.5 py-1 bg-gray-100 text-gray-600">Remind <%= r.reminder_date.strftime("%b %-d, %Y") %></span><% end %>
+      <% if r.completed? %><span class="rounded-full px-2.5 py-1 bg-green-100 text-green-700">✓ Completed <%= r.updated_at.strftime("%b %-d, %Y") %></span><% end %>
     </div>
   </div>
 
-  <% unless @reminder.completed? %>
-    <div class="flex justify-center my-5">
-      <%= render "start", reminder: @reminder, active: @active_task_ids.include?(@reminder.task_id), size: :large %>
-    </div>
-  <% end %>
-
-  <dl class="grid grid-cols-2 gap-x-8 gap-y-4 text-sm">
-    <div>
-      <dt class="text-gray-500">Task</dt>
-      <dd class="font-medium mt-0.5"><%= link_to @reminder.task_label, task_path(@reminder.task), class: "hover:underline" %></dd>
-    </div>
-    <div>
-      <dt class="text-gray-500">Priority</dt>
-      <dd class="font-medium mt-0.5"><%= @reminder.importance %> / 10<%= " · Time critical" if @reminder.time_critical? %></dd>
-    </div>
-    <div>
-      <dt class="text-gray-500">Due</dt>
-      <dd class="font-medium mt-0.5 <%= "text-red-600" if @reminder.overdue? %>"><%= @reminder.due&.strftime("%B %-d, %Y") || "—" %><%= " (overdue)" if @reminder.overdue? %></dd>
-    </div>
-    <div>
-      <dt class="text-gray-500">Reminder date</dt>
-      <dd class="font-medium mt-0.5"><%= @reminder.reminder_date&.strftime("%B %-d, %Y") || "—" %></dd>
-    </div>
-    <div>
-      <dt class="text-gray-500">Status</dt>
-      <dd class="font-medium mt-0.5"><%= @reminder.completed? ? "Completed #{@reminder.updated_at.strftime("%b %-d, %Y")}" : "Open" %></dd>
-    </div>
-    <% if @reminder.description.present? %>
-      <div class="col-span-2">
-        <dt class="text-gray-500">Description</dt>
-        <dd class="mt-0.5"><%= markdown(@reminder.description) %></dd>
+  <%# Primary actions %>
+  <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">
+    <% unless r.completed? %>
+      <div class="flex justify-center sm:justify-start">
+        <%= render "start", reminder: r, active: @active_task_ids.include?(r.task_id), size: :large %>
       </div>
     <% end %>
-  </dl>
+    <%= button_to reminder_path(r), method: :patch, params: { reminder: { completed: !r.completed? } },
+          class: "cursor-pointer w-full sm:w-auto rounded-md py-3 px-5 font-medium border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-slate-700" do %>
+      <%= r.completed? ? "Reopen" : "✓ Mark done" %>
+    <% end %>
+  </div>
+  <%# Secondary actions %>
+  <div class="flex gap-2 mb-8">
+    <%= link_to "Edit", edit_reminder_path(r), class: "flex-1 sm:flex-none text-center rounded-md py-2 px-4 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 font-medium" %>
+    <%= link_to "Back", reminders_path, class: "flex-1 sm:flex-none text-center rounded-md py-2 px-4 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 font-medium" %>
+  </div>
 
-  <div class="mt-8">
-    <%= link_to "Delete", reminder_path(@reminder), data: { turbo_method: :delete, turbo_confirm: "Delete this reminder?" }, class: "text-red-600 hover:underline text-sm" %>
+  <%# Time: estimate vs spent %>
+  <section class="rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6" id="time_progress">
+    <h2 class="text-xs uppercase tracking-wide text-gray-500 mb-2">Time</h2>
+    <% if est %>
+      <div class="flex justify-between text-sm mb-1">
+        <span class="font-medium <%= "text-red-600" if over %>"><%= spent.positive? ? "#{hrs.call(spent)} of #{hrs.call(est)}" : "Not started · #{hrs.call(est)} estimated" %></span>
+        <% if spent.positive? %><span class="text-gray-500"><%= over ? "#{hrs.call((spent - est).round(1))} over" : "#{hrs.call((est - spent).round(1))} left" %></span><% end %>
+      </div>
+      <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden" role="progressbar" aria-valuenow="<%= pct %>" aria-valuemin="0" aria-valuemax="100">
+        <div class="h-full rounded-full <%= over ? "bg-red-500" : (pct >= 80 ? "bg-amber-500" : "bg-green-500") %>" style="width: <%= pct %>%"></div>
+      </div>
+    <% elsif spent.positive? %>
+      <p class="text-sm font-medium"><%= hrs.call(spent) %> spent <span class="text-gray-500 font-normal">· no estimate</span></p>
+    <% else %>
+      <p class="text-sm text-gray-500">Not started · no estimate</p>
+    <% end %>
+  </section>
+
+  <% if r.description.present? %>
+    <section class="rounded-lg bg-gray-50 dark:bg-slate-800 p-4 mb-6">
+      <h2 class="text-xs uppercase tracking-wide text-gray-500 mb-2">Description</h2>
+      <%= markdown(r.description) %>
+    </section>
+  <% end %>
+
+  <section class="mb-6" id="reminder_work_periods">
+    <h2 class="text-lg font-bold pb-1 mb-3 border-b border-gray-200 dark:border-gray-700">Work periods <span class="text-sm font-normal text-gray-500">(<%= @work_periods.size %>)</span></h2>
+    <% if @work_periods.any? %>
+      <ul class="list-none pl-0 divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+        <% @work_periods.each do |wp| %>
+          <% running = wp.start_time == wp.end_time %>
+          <li class="py-2">
+            <div class="flex justify-between gap-3">
+              <div>
+                <%= link_to wp.end_time.strftime("%a - %b %d, %y"), edit_work_period_path(wp), class: "hover:underline" %>
+                <span class="text-gray-500"><%= wp.start_time.strftime("%I:%M %p") %><%= running ? " · running" : " ~ #{wp.end_time.strftime('%I:%M %p')}" %></span>
+              </div>
+              <span class="font-medium whitespace-nowrap"><%= running ? "—" : format("%.2f", wp.duration / 3600.0) %></span>
+            </div>
+            <% if !running && wp.time_note.present? %>
+              <div class="mt-1 text-gray-700 dark:text-gray-300"><%= markdown(wp.time_note) %></div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-500">No work logged against this reminder yet.</p>
+    <% end %>
+  </section>
+
+  <% if @siblings.any? %>
+    <section class="mb-6" id="sibling_reminders">
+      <h2 class="text-lg font-bold pb-1 mb-3 border-b border-gray-200 dark:border-gray-700">Also on this task</h2>
+      <ul class="list-none pl-0 text-sm space-y-1">
+        <% @siblings.each do |s| %>
+          <li class="flex justify-between gap-3">
+            <%= link_to s.title, reminder_path(s), class: "hover:underline" %>
+            <span class="text-xs text-gray-500 whitespace-nowrap"><%= s.due ? s.due.strftime("%b %-d") : "no date" %> · <%= s.importance %>/10</span>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <div class="mt-10 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <%= link_to "Delete", reminder_path(r), data: { turbo_method: :delete, turbo_confirm: "Delete this reminder?" }, class: "text-red-600 hover:underline text-sm" %>
   </div>
 </div>

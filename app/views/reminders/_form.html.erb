@@ -44,6 +44,14 @@
       <%= form.label :importance, "Priority (1–10)" %>
       <%= form.select :importance, (1..10).to_a.reverse, {}, class: input %>
     </div>
+    <div>
+      <%= form.label :estimate_hours, "Time estimate in hours (optional)" %>
+      <%= form.number_field :estimate_hours, step: 0.25, min: 0, class: input %>
+    </div>
+    <div>
+      <%= form.label :recurrence, "Repeats" %>
+      <%= form.select :recurrence, Reminder::RECURRENCES.map { |r| [ r.capitalize, r ] }, { include_blank: "Never" }, class: input %>
+    </div>
     <div class="flex flex-col gap-2 justify-center mt-6">
       <span class="flex items-center gap-2">
         <%= form.check_box :time_critical, class: "rounded border-gray-400" %>

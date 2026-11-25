@@ -3,6 +3,13 @@
 <% if active %>
   <span class="<%= large ? "rounded-md py-3 px-8 bg-green-100 text-green-700 text-base" : "text-sm text-green-600" %> font-medium">● In progress</span>
 <% else %>
-  <%= link_to "Start", task_path(reminder.task), data: { turbo: false },
-        class: (large ? "rounded-md py-3 px-8 bg-blue-600 hover:bg-blue-500 text-white font-medium" : "text-sm text-blue-600 hover:underline") %>
+  <%# Same as the task page's Start: posts a work period whose start/end are stamped with the click time by form-time. %>
+  <%= form_with url: work_periods_path, scope: :work_period, data: { controller: "form-time", turbo: false }, class: "inline" do |form| %>
+    <%= form.hidden_field :task_id, value: reminder.task_id %>
+    <%= form.hidden_field :reminder_id, value: reminder.id %>
+    <%= form.hidden_field :start_time, data: { form_time_target: "startTime" } %>
+    <%= form.hidden_field :end_time, data: { form_time_target: "endTime" } %>
+    <%= form.button "Start", type: :submit,
+          class: "cursor-pointer " + (large ? "rounded-md py-3 px-8 bg-blue-600 hover:bg-blue-500 text-white font-medium" : "text-sm text-blue-600 hover:underline") %>
+  <% end %>
 <% end %>
