@@ -216,4 +216,30 @@ class RemindersControllerTest < ActionDispatch::IntegrationTest
     assert_select "span", text: /In progress/, count: 2
     assert_select "form[action='#{work_periods_path}']", count: 0
   end
+
+  test "matrix places open reminders in the right quadrants" do
+    Reminder.delete_all
+    t = tasks(:one)
+    Reminder.create!(task: t, title: "Do me now", importance: 9, due: Date.current + 1, completed: false)
+    Reminder.create!(task: t, title: "Plan me", importance: 8, due: Date.current + 60, completed: false)
+    Reminder.create!(task: t, title: "Quick one", importance: 2, time_critical: true, completed: false)
+    Reminder.create!(task: t, title: "Someday", importance: 1, completed: false)
+    Reminder.create!(task: t, title: "Already done", importance: 9, due: Date.current, completed: true)
+    get matrix_reminders_url
+    assert_response :success
+    assert_select "#quadrant_do li", text: /Do me now/
+    assert_select "#quadrant_schedule li", text: /Plan me/
+    assert_select "#quadrant_delegate li", text: /Quick one/
+    assert_select "#quadrant_eliminate li", text: /Someday/
+    assert_select "li", text: /Already done/, count: 0
+    assert_select "#quadrant_do li a[href='#{reminder_path(Reminder.find_by(title: "Do me now"))}']"
+  end
+
+  test "matrix is reachable from the list and shows empty quadrants" do
+    get reminders_url
+    assert_select "a[href='#{matrix_reminders_path}']", text: "Matrix"
+    Reminder.delete_all
+    get matrix_reminders_url
+    assert_select "p", text: "Nothing here", count: 4
+  end
 end

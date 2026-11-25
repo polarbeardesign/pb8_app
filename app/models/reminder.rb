@@ -40,6 +40,24 @@ class Reminder < ApplicationRecord
     "#{format('%g', hours)} #{hours == 1 ? 'hr' : 'hrs'}"
   end
 
+  # Eisenhower matrix: important = priority 6+, urgent = time critical, overdue or due within a week
+  IMPORTANT_AT = 6
+  URGENT_WITHIN_DAYS = 7
+
+  def important?
+    importance >= IMPORTANT_AT
+  end
+
+  def urgent?
+    time_critical? || (due.present? && due <= Date.current + URGENT_WITHIN_DAYS)
+  end
+
+  def quadrant
+    if important? then (urgent? ? :do : :schedule)
+    else (urgent? ? :delegate : :eliminate)
+    end
+  end
+
   def next_due_date
     step = { "daily" => 1.day, "weekly" => 1.week, "monthly" => 1.month, "yearly" => 1.year }.fetch(recurrence)
     date = (due || Date.current) + step

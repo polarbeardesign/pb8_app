@@ -9,6 +9,13 @@ class RemindersController < ApplicationController
     @active_task_ids = WorkPeriod.current_job.pluck(:task_id)
   end
 
+  # GET /reminders/matrix
+  def matrix
+    open = Reminder.active.includes(task: :customer).by_importance.to_a
+    @quadrants = open.group_by(&:quadrant)
+    @total = open.size
+  end
+
   # GET /reminders/1 or /reminders/1.json
   def show
     @active_task_ids = WorkPeriod.current_job.pluck(:task_id)

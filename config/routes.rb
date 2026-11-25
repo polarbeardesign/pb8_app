@@ -7,7 +7,9 @@ Rails.application.routes.draw do
       get "contact" => "page_contents#contact"
       get "home" => "page_contents#home"
 
-  resources :reminders
+  resources :reminders do
+    get :matrix, on: :collection
+  end
   get "weekly_summary" => "work_periods#weekly_summary", as: :weekly_summary
   get "weekly" => "work_periods#weekly", as: :weekly
   resources :work_periods

@@ -85,4 +85,30 @@ class ReminderTest < ActiveSupport::TestCase
       @reminder.update!(completed: true)
     end
   end
+
+  test "quadrant sorts by importance and urgency" do
+    r = Reminder.new(importance: 8, due: Date.current + 3)
+    assert_equal :do, r.quadrant
+    r.due = Date.current + 30
+    assert_equal :schedule, r.quadrant
+    r.due = nil
+    r.time_critical = true
+    assert_equal :do, r.quadrant
+    r.importance = 3
+    assert_equal :delegate, r.quadrant
+    r.time_critical = false
+    assert_equal :eliminate, r.quadrant
+    r.due = Date.current - 2 # overdue counts as urgent
+    assert_equal :delegate, r.quadrant
+  end
+
+  test "importance threshold is 6" do
+    assert Reminder.new(importance: 6).important?
+    assert_not Reminder.new(importance: 5).important?
+  end
+
+  test "urgency window is 7 days inclusive" do
+    assert Reminder.new(importance: 5, due: Date.current + 7).urgent?
+    assert_not Reminder.new(importance: 5, due: Date.current + 8).urgent?
+  end
 end
