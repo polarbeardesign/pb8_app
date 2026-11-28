@@ -38,7 +38,7 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       if @reminder.save
-        format.html { redirect_to @reminder, notice: "Reminder was successfully created." }
+        format.html { redirect_to matrix_reminders_path, notice: "Reminder was successfully created." }
         format.json { render :show, status: :created, location: @reminder }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class RemindersController < ApplicationController
     respond_to do |format|
       if @reminder.update(reminder_params)
         # inline edits (complete toggle, importance select) go back to the list
-        format.html { redirect_to(params[:inline] ? reminders_path : @reminder, status: :see_other, notice: "Reminder was successfully updated.") }
+        format.html { redirect_to(params[:inline] ? reminders_path : matrix_reminders_path, status: :see_other, notice: "Reminder was successfully updated.") }
         format.json { render :show, status: :ok, location: @reminder }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -66,7 +66,7 @@ class RemindersController < ApplicationController
     @reminder.destroy!
 
     respond_to do |format|
-      format.html { redirect_to reminders_path, status: :see_other, notice: "Reminder was successfully destroyed." }
+      format.html { redirect_to matrix_reminders_path, status: :see_other, notice: "Reminder was successfully destroyed." }
       format.json { head :no_content }
     end
   end
