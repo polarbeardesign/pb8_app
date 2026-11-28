@@ -1,0 +1,9 @@
+<%# The badge is a select: tap it, pick a value, it saves and the view re-sorts. %>
+<% badge = reminder.importance >= 8 ? "bg-red-100 text-red-700" : (reminder.importance >= 5 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600") %>
+<%= form_with model: reminder, data: { controller: "autosubmit" }, class: "shrink-0" do |form| %>
+  <%= hidden_field_tag :inline, inline, id: nil %>
+  <%= form.select :importance, (1..10).to_a.reverse, {},
+        id: dom_id(reminder, :priority), title: "Change priority", "aria-label": "Priority",
+        data: { action: "change->autosubmit#submit" },
+        class: "appearance-none bg-none rounded-full px-2.5 py-0.5 text-xs font-semibold cursor-pointer border-0 text-center [text-align-last:center] #{badge}" %>
+<% end %>

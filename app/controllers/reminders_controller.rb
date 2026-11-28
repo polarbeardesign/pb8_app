@@ -51,8 +51,9 @@ class RemindersController < ApplicationController
   def update
     respond_to do |format|
       if @reminder.update(reminder_params)
-        # inline edits (complete toggle, importance select) go back to the list
-        format.html { redirect_to(params[:inline] ? reminders_path : matrix_reminders_path, status: :see_other, notice: "Reminder was successfully updated.") }
+        # inline edits (complete toggle, importance select) from the list go back to the list;
+        # everything else, including the matrix's importance select, goes to the matrix
+        format.html { redirect_to(params[:inline].present? && params[:inline] != "matrix" ? reminders_path : matrix_reminders_path, status: :see_other, notice: "Reminder was successfully updated.") }
         format.json { render :show, status: :ok, location: @reminder }
       else
         format.html { render :edit, status: :unprocessable_entity }

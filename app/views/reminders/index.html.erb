@@ -16,7 +16,6 @@
   <% if @open_reminders.any? %>
     <ul class="space-y-3 list-none">
       <% @open_reminders.each do |reminder| %>
-        <% badge = reminder.importance >= 8 ? "bg-red-100 text-red-700" : (reminder.importance >= 5 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600") %>
         <li id="<%= dom_id reminder %>" class="rounded-lg border border-gray-200 dark:border-gray-700 p-3 <%= "border-l-4 border-l-red-500" if reminder.overdue? %>">
           <div class="flex items-start gap-3">
             <div class="pt-0.5"><%= render "toggle", reminder: reminder %></div>
@@ -48,14 +47,7 @@
                 </div>
               <% end %>
             </div>
-            <%# The badge is a select: tap it, pick a value, it saves and the list re-sorts. %>
-            <%= form_with model: reminder, data: { controller: "autosubmit" }, class: "shrink-0" do |form| %>
-              <%= hidden_field_tag :inline, 1 %>
-              <%= form.select :importance, (1..10).to_a.reverse, {},
-                    title: "Change priority", "aria-label": "Priority",
-                    data: { action: "change->autosubmit#submit" },
-                    class: "appearance-none bg-none rounded-full px-2.5 py-0.5 text-xs font-semibold cursor-pointer border-0 text-center [text-align-last:center] #{badge}" %>
-            <% end %>
+            <%= render "priority", reminder: reminder, inline: "list" %>
           </div>
           <div class="flex items-center justify-end gap-4 mt-3">
             <%= link_to "Edit", edit_reminder_path(reminder), class: "text-sm text-blue-600 hover:underline" %>

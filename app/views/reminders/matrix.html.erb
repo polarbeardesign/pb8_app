@@ -11,6 +11,10 @@
 %>
 
 <div class="w-full max-w-5xl mx-auto">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
   <div class="flex justify-between items-center mb-2">
     <h1 class="font-bold text-3xl sm:text-4xl">Priority matrix</h1>
     <div class="flex items-center gap-3">
@@ -48,10 +52,14 @@
             <ul class="list-none pl-0 space-y-2 max-h-96 overflow-y-auto">
               <% items.each do |r| %>
                 <li class="rounded-md bg-white dark:bg-slate-700 border border-gray-200 dark:border-gray-600 px-2.5 py-1.5 text-sm" id="<%= dom_id r, :matrix %>">
-                  <div class="text-[11px] text-gray-400 truncate"><%= r.task_label %></div>
-                  <%= link_to r.title, reminder_path(r), class: "font-medium leading-snug hover:underline break-words" %>
+                  <div class="flex items-start gap-2">
+                    <div class="min-w-0 flex-1">
+                      <div class="text-[11px] text-gray-400 truncate"><%= r.task_label %></div>
+                      <%= link_to r.title, reminder_path(r), class: "font-medium leading-snug hover:underline break-words" %>
+                    </div>
+                    <%= render "priority", reminder: r, inline: "matrix" %>
+                  </div>
                   <div class="flex flex-wrap gap-x-3 text-[11px] text-gray-500 mt-0.5">
-                    <span>Priority <%= r.importance %>/10</span>
                     <% if r.due %><span class="<%= "text-red-600 font-medium" if r.overdue? %>"><%= r.overdue? ? "Overdue · " : "Due " %><%= r.due.strftime("%b %-d") %></span><% end %>
                     <% if r.time_critical? %><span class="text-red-600 font-medium">Time critical</span><% end %>
                   </div>

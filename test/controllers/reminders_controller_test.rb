@@ -50,7 +50,7 @@ class RemindersControllerTest < ActionDispatch::IntegrationTest
       post reminders_url, params: { reminder: { change_count: @reminder.change_count, completed: @reminder.completed, description: @reminder.description, due: @reminder.due, position: @reminder.position, reminder_date: @reminder.reminder_date, task_id: @reminder.task_id, time_critical: @reminder.time_critical, title: @reminder.title } }
     end
 
-    assert_redirected_to reminder_url(Reminder.last)
+    assert_redirected_to matrix_reminders_url
   end
 
   test "should show reminder" do
@@ -140,7 +140,7 @@ class RemindersControllerTest < ActionDispatch::IntegrationTest
 
   test "should update reminder" do
     patch reminder_url(@reminder), params: { reminder: { change_count: @reminder.change_count, completed: @reminder.completed, description: @reminder.description, due: @reminder.due, position: @reminder.position, reminder_date: @reminder.reminder_date, task_id: @reminder.task_id, time_critical: @reminder.time_critical, title: @reminder.title } }
-    assert_redirected_to reminder_url(@reminder)
+    assert_redirected_to matrix_reminders_url
   end
 
   test "should destroy reminder" do
@@ -148,6 +148,22 @@ class RemindersControllerTest < ActionDispatch::IntegrationTest
       delete reminder_url(@reminder)
     end
 
+    assert_redirected_to matrix_reminders_url
+  end
+
+  test "matrix cards have an inline priority select that returns to the matrix" do
+    get matrix_reminders_url
+    card = "li##{ActionView::RecordIdentifier.dom_id(@reminder, :matrix)}"
+    assert_select "#{card} select[name='reminder[importance]']"
+    assert_select "#{card} input[name='inline'][value='matrix']"
+
+    patch reminder_url(@reminder), params: { inline: "matrix", reminder: { importance: 9 } }
+    assert_redirected_to matrix_reminders_url
+    assert_equal 9, @reminder.reload.importance
+  end
+
+  test "inline priority change on the list returns to the list" do
+    patch reminder_url(@reminder), params: { inline: "list", reminder: { importance: 3 } }
     assert_redirected_to reminders_url
   end
 
